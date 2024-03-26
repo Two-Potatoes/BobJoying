@@ -1,0 +1,28 @@
+version: "3"
+services:
+  postgres:
+    container_name: postgres
+    env_file: ./.env
+    image: postgres
+    volumes:
+      - bobJoyingDBVolume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_LOCAL_PORT}:${POSTGRES_DOCKER_PORT}
+
+  bobjoying_app:
+    container_name: bobjoying_app
+    env_file: ./.env
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+
+volumes:
+  bobJoyingDBVolume:
