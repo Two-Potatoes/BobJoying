@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 
 @Getter
@@ -16,8 +17,11 @@ import lombok.Getter;
 // Entity에 이벤트가 발생할 때 마다 관련 코드를 실행
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Timestamped {
-
-    @CreatedDate()                         // 생성 일자를 관리하는 필드에 현재 날짜를 주입하는 작업을 수행
-    @Column(updatable = false)           // 생성일자에 대한 필드이므로 수정 불가
+    @Column(updatable = false)
     private ZonedDateTime createdAt;
+
+    @PrePersist                          // Entity가 INSERT 되기 전에 원하는 메서드 실행
+    public void prePersist() {
+        this.createdAt = ZonedDateTime.now();
+    }
 }
