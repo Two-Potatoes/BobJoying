@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 public enum CustomErrorCode {
-    // TODO : 예시 에러코드입니다. 필요하지 않으면 추후 삭제합니다.
-    USER_NOT_FOUND(ErrorType.NOT_FOUND, "사용자가 존재하지 않습니다.");
+    TEAM_NOT_FOUND(ErrorType.NOT_FOUND, "팀이 존재하지 않습니다."),
+    ACCOUNT_ALREADY_EXISTS(ErrorType.BAD_REQUEST, "이미 가입한 계정입니다.");
 
     private final ErrorType errorType;
     private final String message;
