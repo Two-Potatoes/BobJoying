@@ -1,4 +1,4 @@
-package com.twoPotatoes.bobJoying.member.resolver;
+package com.twoPotatoes.bobJoying.member.controller;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class MemberResolver {
+public class MemberController {
     private final MemberService memberService;
 
     @MutationMapping
