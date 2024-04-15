@@ -42,3 +42,4 @@ out/
 
 ### docker-compose 환경변수
 /.env
+/src/main/resources/application-docker.yml

@@ -35,11 +35,11 @@ jobs:
       # Runner에서 프로젝트 build 시 필요한 application.properties 생성
       - name: properties 파일 생성
         run: |
-          cd ./src/main
-          mkdir resources
-          cd resources
+          cd ./src/main/resources
           touch ./application.properties
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./application.properties
+          touch ./application-docker.yml
+          echo "${{ secrets.APPLICATION_DOCKER_YML }}" > ./application-docker.yml
         shell: bash
 
       - name: JDK 17 설치
@@ -72,7 +72,7 @@ jobs:
       # docker-compose 이용하여 도커 컨테이너에서 프로젝트 build & run
       - name: Build and run Docker containers
         run: |
-          docker-compose -f docker-compose-ci.yml up -d
+          docker-compose -f docker-compose-dev.yml up -d
 
       - name: 빌드 결과 Slack으로 알림
         uses: 8398a7/action-slack@v3

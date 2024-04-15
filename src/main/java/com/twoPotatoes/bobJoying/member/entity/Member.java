@@ -54,7 +54,7 @@ public class Member extends Timestamped {
     // EnumType.ORDINAL로 설정하면 EnumType의 순서를 저장합니다. (ex. 1(1번째 Enum), 2(2번째 Enum))
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private UserRoleEnum role;
+    private MemberRoleEnum role;
 
     // mappedBy = "member": MyIngredient Entity에서의 Member 객체명과 맵핑시켜줍니다.
     // cascade = CascadeType.REMOVE: 부모 Entity 삭제시, 자식 Entity도 삭제됩니다.
