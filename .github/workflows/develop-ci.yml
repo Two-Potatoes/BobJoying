@@ -38,6 +38,8 @@ jobs:
           cd ./src/main/resources
           touch ./application.properties
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./application.properties
+          touch ./application-docker.yml
+          echo "${{ secrets.APPLICATION_DOCKER_YML }}" > ./application-docker.yml
         shell: bash
 
       - name: JDK 17 설치
