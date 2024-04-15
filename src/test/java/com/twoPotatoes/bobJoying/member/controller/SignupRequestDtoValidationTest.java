@@ -45,7 +45,7 @@ public class SignupRequestDtoValidationTest {
     @Test
     @DisplayName("email - Not Blank")
     void emailNotBlank() {
-        signupRequestDto.setEmail("");
+        signupRequestDto.setEmail(null);
         assertEquals("이메일 칸은 비울 수 없습니다.", getValidationExMessage());
     }
 
