@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private Team findByTeamId(int id) {
-        return teamRepository.findById((long)id).orElseThrow(
+        return teamRepository.findById(id).orElseThrow(
             () -> new CustomException(CustomErrorCode.TEAM_NOT_FOUND)
         );
     }
