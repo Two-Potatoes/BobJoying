@@ -23,6 +23,7 @@ import com.twoPotatoes.bobJoying.member.entity.Team;
 import com.twoPotatoes.bobJoying.member.repository.MemberRepository;
 import com.twoPotatoes.bobJoying.member.repository.TeamRepository;
 
+// MemberService의 메서드를 테스트합니다.
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
     @Mock

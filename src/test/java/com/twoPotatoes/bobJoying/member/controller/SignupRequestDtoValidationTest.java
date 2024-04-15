@@ -16,6 +16,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
+// SignupRequestDto의 Validation을 Test합니다.
 public class SignupRequestDtoValidationTest {
 
     private static Validator validator;

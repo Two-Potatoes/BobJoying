@@ -12,6 +12,7 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 
 import com.twoPotatoes.bobJoying.member.service.MemberService;
 
+// MemberController를 테스트합니다.
 @GraphQlTest(MemberController.class)
 class MemberControllerTest {
     @Autowired
