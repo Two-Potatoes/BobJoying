@@ -58,11 +58,11 @@
 ###### 토글을 누르면 해당 내용을 확인할 수 있습니다.
 
 <details>
-<summary> 1. 🐳 PR을 올리면 CI에서 test code를 check하고 프로젝트를 도커에서 build해본 후 그 결과를 슬랙으로 알려줘요!</summary>
+<summary> 1. 🐳 CI에서 test 코드를 check하고 프로젝트를 도커에서 build해본 후 결과를 슬랙으로 알림이 오도록 했어요!</summary>
 
 <br>
 
-* CI에서 `build`와 `test code`를 check하고 PR에 `코멘트`를 남겨요!
+* CI test code 통과 결과를 PR comment에 남기도록 했어요!
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/e771f023-b2e9-4ea0-ae43-c8035231c0bf">
 
@@ -70,7 +70,7 @@
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/0a8517dc-2e4f-4609-ab94-f6d16ef8f538">
 
-* PR 결과에 대해 `슬랙` 채널에 우리가 커스텀된 알림이 와요!
+* CI 결과를 슬랙 채널에서 커스텀한 알림으로 받아볼 수 있어요!
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/bc3db56a-f22c-47f6-9398-a64e90337a67">
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/e7540b39-1924-42fe-83ef-e23963bc3446">
