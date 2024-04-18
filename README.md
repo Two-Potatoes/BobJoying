@@ -19,6 +19,12 @@
 
 <br>
 
+## 📐 Architecture
+
+<img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/046ebb25-0069-49ea-aa52-6edb87ef2ec6" width="700px">
+
+<br><br>
+
 ## 💬 ERD
 
 ###### 토글을 누르면 ERD를 확인할 수 있습니다!
