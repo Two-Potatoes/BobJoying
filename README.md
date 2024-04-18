@@ -19,6 +19,12 @@
 
 <br>
 
+## 📐 Architecture
+
+<img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/046ebb25-0069-49ea-aa52-6edb87ef2ec6" width="700px">
+
+<br><br>
+
 ## 💬 ERD
 
 ###### 토글을 누르면 ERD를 확인할 수 있습니다!
@@ -48,8 +54,7 @@
 <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=slack&logoColor=white">&nbsp;
-<img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white">&nbsp;
-<img src="https://img.shields.io/badge/pgAdmin4-336791?style=flat-square&logo=pgadmin&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/Altair-368CBF?style=flat-square&logo=&logoColor=white">&nbsp;
 
 <br>
 
@@ -58,11 +63,11 @@
 ###### 토글을 누르면 해당 내용을 확인할 수 있습니다.
 
 <details>
-<summary> 1. 🐳 PR을 올리면 CI에서 test code를 check하고 프로젝트를 도커에서 build해본 후 그 결과를 슬랙으로 알려줘요!</summary>
+<summary> 1. 🐳 CI에서 test 코드를 check하고 프로젝트를 도커에서 build해본 후 결과를 슬랙으로 알림이 오도록 했어요!</summary>
 
 <br>
 
-* CI에서 `build`와 `test code`를 check하고 PR에 `코멘트`를 남겨요!
+* CI test code 통과 결과를 PR comment에 남기도록 했어요!
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/e771f023-b2e9-4ea0-ae43-c8035231c0bf">
 
@@ -70,7 +75,7 @@
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/0a8517dc-2e4f-4609-ab94-f6d16ef8f538">
 
-* PR 결과에 대해 `슬랙` 채널에 우리가 커스텀된 알림이 와요!
+* CI 결과를 슬랙 채널에서 커스텀한 알림으로 받아볼 수 있어요!
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/bc3db56a-f22c-47f6-9398-a64e90337a67">
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/e7540b39-1924-42fe-83ef-e23963bc3446">
@@ -127,16 +132,95 @@
 
 </details>
 
-<!--배포 후 추가 개선점, 트러블 슈팅 기록, 버전에 따른 기능 기록-->
+<!--배포 후 추가 개선점, 버전에 따른 기능 기록-->
 
 <br>
 
-## 🐳 Docker Compose
+## 🎯 Trouble Shooting
 
-`application.properties`, `docker compose script` 환경변수(`.env`) 설정 후 다음 명령어로 컨테이너에서 프로젝트를 build해볼 수 있어요!
+###### 해당 항목을 클릭하면 트러블 슈팅 과정을 정리한 블로그로 이동합니다.
+
+[1. GraphQL - mutation 실행 시 필드값이 null로 들어오는 오류](https://argente29.tistory.com/144)
+
+[2. Docker에서 Spring Boot 프로젝트 build 시 GraphQL 요청을 보내지 못하는 오류](https://argente29.tistory.com/143)
+
+<br>
+
+## 🐳 Docker Compose build 
+
+###### 토글을 누르면 해당 내용을 확인할 수 있습니다.
+
+##### 1️⃣ `application-docker.yml` 파일을 `main/resources`에 생성합니다. (Docker용 프로젝트 설정 파일)
+
+<details>
+<summary>application-docker.yml</summary>
+
+```yaml
+spring:
+  graphql:
+    schema:
+      locations: file:/app/graphql/**
+    graphiql:
+      enabled: true
+  datasource:
+    url: {Docker_DB_URL}
+    username: {Docker_DB_username}
+    password: {Docker_DB_password}
+    driver-class-name: org.postgresql.Driver
+```
+
+</details>
+
+##### 2️⃣ 프로젝트 가장 상위 폴더에 `.env` 파일을 생성합니다. (Docker compose script 환경변수 설정)
+
+<details>
+<summary>.env</summary>
+  
+```text
+POSTGRES_DB={Docker_DB_name}
+POSTGRES_USER={Docker_DB_username}
+POSTGRES_PASSWORD={Docker_DB_password}
+
+POSTGRES_LOCAL_PORT=5433
+POSTGRES_DOCKER_PORT=5432
+
+SPRING_LOCAL_PORT=8080
+SPRING_DOCKER_PORT=8080
+```
+
+</details>
+
+##### 3️⃣ `application.properties` 파일을 `main/resources`에 생성합니다. (로컬 build용)
+
+<details>
+<summary>application.properties</summary>
+
+```text
+spring.datasource.url={로컬_DB_URL}
+spring.datasource.username={로컬_DB_username}
+spring.datasource.password={로컬_DB_password}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+
+# GraphQL
+# graphiql을 통해 테스트 가능 여부 (localhost:8080/graphiql)
+spring.graphql.graphiql.enabled=true
+```
+
+</details>
+
+##### 4️⃣ 로컬에서 project를 build해서 `jar`파일을 생성합니다.
+
+##### 5️⃣ 터미널에서 docker compose 실행 명령어를 입력하여 프로젝트를 build합니다.
 
 ```shell
-docker-compose -f docker-compose-ci.yml up -d
+docker-compose -f docker-compose-dev.yml up -d
+```
+
+##### ➕ Docker Postgres 컨테이너 접속 명령어
+
+```shell
+docker exec -it {postgres 컨테이너 이름} bash
 ```
 
 <br>
