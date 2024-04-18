@@ -132,7 +132,17 @@
 
 </details>
 
-<!--배포 후 추가 개선점, 트러블 슈팅 기록, 버전에 따른 기능 기록-->
+<!--배포 후 추가 개선점, 버전에 따른 기능 기록-->
+
+<br>
+
+## 🎯 Trouble Shooting
+
+###### 해당 항목을 클릭하면 트러블 슈팅 과정을 정리한 블로그로 이동합니다.
+
+[1. GraphQL - mutation 실행 시 필드값이 null로 들어오는 오류](https://argente29.tistory.com/144)
+
+[2. Docker에서 Spring Boot 프로젝트 build 시 GraphQL 요청을 보내지 못하는 오류](https://argente29.tistory.com/143)
 
 <br>
 
