@@ -54,8 +54,7 @@
 <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=slack&logoColor=white">&nbsp;
-<img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white">&nbsp;
-<img src="https://img.shields.io/badge/pgAdmin4-336791?style=flat-square&logo=pgadmin&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/Altair-368CBF?style=flat-square&logo=&logoColor=white">&nbsp;
 
 <br>
 
