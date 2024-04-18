@@ -137,12 +137,81 @@
 
 <br>
 
-## 🐳 Docker Compose
+## 🐳 Docker Compose build 
 
-`application.properties`, `docker compose script` 환경변수(`.env`) 설정 후 다음 명령어로 컨테이너에서 프로젝트를 build해볼 수 있어요!
+###### 토글을 누르면 해당 내용을 확인할 수 있습니다.
+
+##### 1️⃣ `application-docker.yml` 파일을 `main/resources`에 생성합니다. (Docker용 프로젝트 설정 파일)
+
+<details>
+<summary>application-docker.yml</summary>
+
+```yaml
+spring:
+  graphql:
+    schema:
+      locations: file:/app/graphql/**
+    graphiql:
+      enabled: true
+  datasource:
+    url: {Docker_DB_URL}
+    username: {Docker_DB_username}
+    password: {Docker_DB_password}
+    driver-class-name: org.postgresql.Driver
+```
+
+</details>
+
+##### 2️⃣ 프로젝트 가장 상위 폴더에 `.env` 파일을 생성합니다. (Docker compose script 환경변수 설정)
+
+<details>
+<summary>.env</summary>
+  
+```text
+POSTGRES_DB={Docker_DB_name}
+POSTGRES_USER={Docker_DB_username}
+POSTGRES_PASSWORD={Docker_DB_password}
+
+POSTGRES_LOCAL_PORT=5433
+POSTGRES_DOCKER_PORT=5432
+
+SPRING_LOCAL_PORT=8080
+SPRING_DOCKER_PORT=8080
+```
+
+</details>
+
+##### 3️⃣ `application.properties` 파일을 `main/resources`에 생성합니다. (로컬 build용)
+
+<details>
+<summary>application.properties</summary>
+
+```text
+spring.datasource.url={로컬_DB_URL}
+spring.datasource.username={로컬_DB_username}
+spring.datasource.password={로컬_DB_password}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+
+# GraphQL
+# graphiql을 통해 테스트 가능 여부 (localhost:8080/graphiql)
+spring.graphql.graphiql.enabled=true
+```
+
+</details>
+
+##### 4️⃣ 로컬에서 project를 build해서 `jar`파일을 생성합니다.
+
+##### 5️⃣ 터미널에서 docker compose 실행 명령어를 입력하여 프로젝트를 build합니다.
 
 ```shell
-docker-compose -f docker-compose-ci.yml up -d
+docker-compose -f docker-compose-dev.yml up -d
+```
+
+##### ➕ Docker Postgres 컨테이너 접속 명령어
+
+```shell
+docker exec -it {postgres 컨테이너 이름} bash
 ```
 
 <br>
