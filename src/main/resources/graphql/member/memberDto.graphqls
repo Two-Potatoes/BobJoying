@@ -1,0 +1,15 @@
+input SignupRequestDto {
+    email: String!
+    password: String!
+    nickname: String!
+}
+
+input LoginRequestDto {
+    email: String!
+    password: String!
+}
+
+type LoginResponseDto {
+    token: String!
+    message: String!
+}
