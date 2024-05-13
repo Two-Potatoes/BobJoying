@@ -21,7 +21,7 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() throws Exception {
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
     }
 
