@@ -34,8 +34,9 @@ class MemberControllerTest {
 
     @Test
     void signup() {
-        graphQlTester.documentName("member/signup")
+        graphQlTester.documentName("member")
             .variable("input", signupRequestDto)
+            .operationName("signup")
             .execute()
             .path("signup.message")
             .entity(String.class)
