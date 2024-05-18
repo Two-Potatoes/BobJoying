@@ -14,7 +14,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: ${{ env.PR_WRITER != env.PR_REVIEWER }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
