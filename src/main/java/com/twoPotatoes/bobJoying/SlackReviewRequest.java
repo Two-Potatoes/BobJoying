@@ -13,6 +13,7 @@ import java.util.Map;
  *   "attachments":
  *   [
  *     {
+ *       "fallback": "PR 리뷰 요청합니다!",
  *       "mrkdwn_in": ["pretext","value"],
  *       "color": "#FFFF00",
  *       "pretext": "@SLACK_ID 님! PR 리뷰 요청합니다! 🙋‍♀️\n\n:arrow_down: 리뷰하러 가기 :arrow_down:",
@@ -73,7 +74,8 @@ public class SlackReviewRequest {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"attachments\":");
 
-        sb.append("[{\"mrkdwn_in\": [\"text\",\"pretext\",\"value\"],");
+        sb.append("[{\"fallback\": \"PR 리뷰 요청합니다! 🙋‍♀️\",");
+        sb.append("\"mrkdwn_in\": [\"text\",\"pretext\",\"value\"],");
         sb.append("\"color\": \"#FBF8D9\",");
         sb.append(pretext);
         sb.append(',');

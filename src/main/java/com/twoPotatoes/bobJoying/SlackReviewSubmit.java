@@ -12,6 +12,7 @@ import java.util.Map;
  *   "attachments":
  *   [
  *     {
+ *       "fallback": "PR에 리뷰가 달렸어요! 확인해 주세요!",
  *       "mrkdwn_in": ["text"],
  *       "color": "#238636",
  *       "text": "@SLACK_ID 님의 PR에 {리뷰단사람} 님이 리뷰를 달아주셨어요!\n
@@ -58,6 +59,7 @@ public class SlackReviewSubmit {
     private String generateJsonPayload(String text) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"attachments\":[{");
+        sb.append("\"fallback\": \"PR에 리뷰가 달렸어요! 확인해 주세요!\",");
         sb.append("\"mrkdwn_in\": [\"text\"],");
         sb.append("\"color\": \"#238636\",");
         sb.append(text);
