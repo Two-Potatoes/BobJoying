@@ -32,8 +32,6 @@ class MemberServiceTest {
     @Mock
     MemberRepository memberRepository;
     @Mock
-    TeamRepository teamRepository;
-    @Mock
     PasswordEncoder passwordEncoder;
     @Mock
     JwtUtil jwtUtil;
@@ -75,7 +73,6 @@ class MemberServiceTest {
     void signup() {
         // given
         given(memberRepository.findByEmail(anyString())).willReturn(Optional.empty());
-        given(teamRepository.findById(anyInt())).willReturn(Optional.of(new Team()));
 
         // when
         memberService.signup(signupRequestDto);

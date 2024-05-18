@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
-    private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -33,9 +32,8 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 계정이 존재하지 않으면 member에 default팀을 할당하여 유저 정보를 저장합니다.
-        Team defaultTeam = findByTeamId(1);
         Member targetMember = Member.builder()
-            .team(defaultTeam)
+            .team(null)
             .email(signupRequestDto.getEmail())
             .password(passwordEncoder.encode(signupRequestDto.getPassword()))
             .nickname(signupRequestDto.getNickname())
@@ -59,11 +57,5 @@ public class MemberServiceImpl implements MemberService {
 
     private Member findMember(String email) {
         return memberRepository.findByEmail(email).orElse(null);
-    }
-
-    private Team findByTeamId(int id) {
-        return teamRepository.findById(id).orElseThrow(
-            () -> new CustomException(CustomErrorCode.TEAM_NOT_FOUND)
-        );
     }
 }
