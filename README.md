@@ -163,10 +163,12 @@ spring:
     graphiql:
       enabled: true
   datasource:
-    url: {Docker_DB_URL}
-    username: {Docker_DB_username}
-    password: {Docker_DB_password}
+    url: { Docker_DB_URL }
+    username: { Docker_DB_username }
+    password: { Docker_DB_password }
     driver-class-name: org.postgresql.Driver
+
+JWT_SECRET_KEY: { BASE64로 encoding된 key }
 ```
 
 </details>
@@ -196,15 +198,18 @@ SPRING_DOCKER_PORT=8080
 <summary>application.properties</summary>
 
 ```text
-spring.datasource.url={로컬_DB_URL}
-spring.datasource.username={로컬_DB_username}
-spring.datasource.password={로컬_DB_password}
+spring.datasource.url={ 로컬_DB_URL }
+spring.datasource.username={ 로컬_DB_username }
+spring.datasource.password={ 로컬_DB_password }
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 
 # GraphQL
 # graphiql을 통해 테스트 가능 여부 (localhost:8080/graphiql)
 spring.graphql.graphiql.enabled=true
+
+# JWT
+JWT_SECRET_KEY={ BASE64로 encoding된 key }
 ```
 
 </details>
