@@ -1,5 +1,0 @@
-mutation signup($input: SignupRequestDto!){
-    signup(signupRequestDto: $input){
-        message
-    }
-}

@@ -1,3 +1,4 @@
 type Mutation {
     signup(signupRequestDto: SignupRequestDto!): ApiResponseDto
+    login(loginRequestDto: LoginRequestDto!): LoginResponseDto
 }

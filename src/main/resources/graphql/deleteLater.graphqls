@@ -1,4 +1,0 @@
-# TODO: 아래의 Query는 사용하지 않지만 스키마에서는 하나 이상의 쿼리를 정의해야 하기 때문에 해주었습니다. 후에 삭제예정
-type Query {
-    necessaryQuery(id: ID): String!
-}

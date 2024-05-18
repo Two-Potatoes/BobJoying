@@ -1,0 +1,12 @@
+mutation signup($input: SignupRequestDto!){
+    signup(signupRequestDto: $input){
+        message
+    }
+}
+
+mutation login($input: LoginRequestDto!){
+    login(loginRequestDto: $input){
+        token
+        message
+    }
+}
