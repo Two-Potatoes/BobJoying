@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.twoPotatoes.bobJoying.common.constants.AuthConstants;
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
@@ -26,15 +27,11 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtil {
-    // Header KEY 값
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    // 사용자 권한 값의 KEY
-    public static final String AUTHORIZATION_KEY = "auth";
-    // Token 식별자
-    public static final String BEARER_PREFIX = "Bearer ";
-    // 토큰 만료시간
-    private final long ACCESS_TOKEN_TIME = 30 * 60 * 1000L; // 30분
-    private final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 일주일
+    private final String AUTHORIZATION_HEADER = AuthConstants.AUTHORIZATION_HEADER;
+    private final String AUTHORIZATION_KEY = AuthConstants.AUTHORIZATION_KEY;
+    private final String BEARER_PREFIX = AuthConstants.BEARER_PREFIX;
+    private final long ACCESS_TOKEN_TIME = AuthConstants.ACCESS_TOKEN_TIME;
+    private final long REFRESH_TOKEN_TIME = AuthConstants.REFRESH_TOKEN_TIME;
 
     @Value("${JWT_SECRET_KEY}") // Base64 Encode 한 SecretKey
     private String secretKey;
