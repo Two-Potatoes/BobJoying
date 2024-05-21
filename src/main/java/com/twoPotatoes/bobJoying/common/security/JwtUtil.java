@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
+import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
 
 import io.jsonwebtoken.Claims;
@@ -102,5 +104,21 @@ public class JwtUtil {
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    // 만료된 토큰에서 사용자 정보 반환하기
+    public String getUserEmailFromExpiredToken(String expiredAccessToken) {
+        if (!StringUtils.hasText(expiredAccessToken) || !expiredAccessToken.startsWith(BEARER_PREFIX)) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS);
+        }
+        String subToken = expiredAccessToken.substring(BEARER_PREFIX.length());
+        Claims claims;
+        try {
+            claims = getUserInfoFromToken(subToken);
+        } catch (ExpiredJwtException e) {
+            System.out.println("e.getClaims().getSubject() = " + e.getClaims().getSubject());
+            return e.getClaims().getSubject();
+        }
+        return claims.getSubject();
     }
 }
