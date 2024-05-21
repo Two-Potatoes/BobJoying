@@ -41,6 +41,7 @@ public class SecurityConfig {
             authorizeHttpRequests
                 .requestMatchers("/graphql").permitAll()
                 .requestMatchers("/graphiql").permitAll()
+                .requestMatchers("/h2-console").permitAll()
                 .anyRequest().denyAll()
         );
 

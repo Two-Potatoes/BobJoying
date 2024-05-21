@@ -17,14 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
-import com.twoPotatoes.bobJoying.common.security.JwtUtil;
-import com.twoPotatoes.bobJoying.member.dto.LoginRequestDto;
 import com.twoPotatoes.bobJoying.member.dto.SignupRequestDto;
 import com.twoPotatoes.bobJoying.member.entity.Member;
-import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
-import com.twoPotatoes.bobJoying.member.entity.Team;
 import com.twoPotatoes.bobJoying.member.repository.MemberRepository;
-import com.twoPotatoes.bobJoying.member.repository.TeamRepository;
 
 // MemberService의 메서드를 테스트합니다.
 @ExtendWith(MockitoExtension.class)
@@ -33,8 +28,6 @@ class MemberServiceTest {
     MemberRepository memberRepository;
     @Mock
     PasswordEncoder passwordEncoder;
-    @Mock
-    JwtUtil jwtUtil;
     @InjectMocks
     MemberServiceImpl memberService;
 
@@ -43,19 +36,12 @@ class MemberServiceTest {
 
     SignupRequestDto signupRequestDto;
 
-    LoginRequestDto loginRequestDto;
-
     @BeforeEach
     void setUp() {
         signupRequestDto = SignupRequestDto.builder()
             .email("test-email@email.com")
             .password("rightPassword123!")
             .nickname("test-nickname")
-            .build();
-
-        loginRequestDto = LoginRequestDto.builder()
-            .email("test-email@email.com")
-            .password("rightPassword123!")
             .build();
     }
 
@@ -83,45 +69,5 @@ class MemberServiceTest {
         assertEquals(signupRequestDto.getEmail(), member.getEmail());
         assertEquals(signupRequestDto.getNickname(), member.getNickname());
         then(memberRepository).shouldHaveNoMoreInteractions();
-    }
-
-    @Test
-    @DisplayName("로그인 실패 - 일치하는 이메일이 없을 때")
-    void loginFailureByEmail() {
-        // given
-        given(memberRepository.findByEmail(anyString())).willReturn(Optional.empty());
-
-        assertThrows(CustomException.class, () -> memberService.login(loginRequestDto));
-    }
-
-    @Test
-    @DisplayName("로그인 실패 - 비밀번호가 일치하지 않을 때")
-    void loginFailureByPassword() {
-        // given
-        Member member = Member.builder().password("test").build();
-        given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
-        given(passwordEncoder.matches(anyString(), anyString())).willReturn(false);
-
-        assertThrows(CustomException.class, () -> memberService.login(loginRequestDto));
-    }
-
-    @Test
-    @DisplayName("로그인 성공")
-    void loginSuccess() {
-        // given
-        Member member = Member.builder()
-            .email("test-email@email.com")
-            .password("test-password")
-            .role(MemberRoleEnum.MEMBER)
-            .build();
-        given(memberRepository.findByEmail(anyString())).willReturn(Optional.of(member));
-        given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
-        given(jwtUtil.createToken(anyString(), any())).willReturn("exampleToken");
-
-        // when
-        String token = memberService.login(loginRequestDto);
-
-        // then
-        assertEquals(token, "exampleToken");
     }
 }

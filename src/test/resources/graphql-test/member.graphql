@@ -3,10 +3,3 @@ mutation signup($input: SignupRequestDto!){
         message
     }
 }
-
-mutation login($input: LoginRequestDto!){
-    login(loginRequestDto: $input){
-        token
-        message
-    }
-}

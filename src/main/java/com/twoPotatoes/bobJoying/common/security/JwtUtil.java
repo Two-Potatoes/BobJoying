@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
+import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
 
 import io.jsonwebtoken.Claims;
@@ -31,7 +33,8 @@ public class JwtUtil {
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 30 * 60 * 1000L; // 30분
+    private final long ACCESS_TOKEN_TIME = 30 * 60 * 1000L; // 30분
+    private final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 일주일
 
     @Value("${JWT_SECRET_KEY}") // Base64 Encode 한 SecretKey
     private String secretKey;
@@ -50,17 +53,26 @@ public class JwtUtil {
 
     // JWT 생성
     // 토큰 생성
-    public String createToken(String email, MemberRoleEnum role) {
+    public String createAccessToken(String email, MemberRoleEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
             Jwts.builder()
                 .setSubject(email) // 사용자 식별자값(ID)
                 .claim(AUTHORIZATION_KEY, role) // 사용자 권한
-                .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
+                .setExpiration(new Date(date.getTime() + ACCESS_TOKEN_TIME)) // 만료 시간
                 .setIssuedAt(date) // 발급일
                 .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                 .compact();
+    }
+
+    public String createRefreshToken() {
+        Date date = new Date();
+
+        return Jwts.builder()
+            .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME)) // 만료 시간
+            .signWith(key, signatureAlgorithm)  // 암호화 알고리즘
+            .compact();
     }
 
     // HttpServletRequest 에서 Header Value : JWT 가져오기
@@ -92,5 +104,21 @@ public class JwtUtil {
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    // 만료된 토큰에서 사용자 정보 반환하기
+    public String getUserEmailFromExpiredToken(String expiredAccessToken) {
+        if (!StringUtils.hasText(expiredAccessToken) || !expiredAccessToken.startsWith(BEARER_PREFIX)) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS);
+        }
+        String subToken = expiredAccessToken.substring(BEARER_PREFIX.length());
+        Claims claims;
+        try {
+            claims = getUserInfoFromToken(subToken);
+        } catch (ExpiredJwtException e) {
+            System.out.println("e.getClaims().getSubject() = " + e.getClaims().getSubject());
+            return e.getClaims().getSubject();
+        }
+        return claims.getSubject();
     }
 }

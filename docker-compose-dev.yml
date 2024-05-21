@@ -18,6 +18,7 @@ services:
     env_file: ./.env
     depends_on:
       - postgres
+      - redis
     build:
       context: .
       dockerfile: Dockerfile-dev
@@ -26,6 +27,19 @@ services:
     volumes:
       - bobJoyingAppVolume:/tmp
 
+  redis:
+    container_name: redis
+    env_file: ./.env
+    image: redis
+    ports:
+      - ${REDIS_LOCAL_PORT}:${REDIS_DOCKER_PORT}
+    volumes:
+      - bobJoyingRedisVolume:/data
+      - ./docker-redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
 volumes:
   bobJoyingDBVolume:
   bobJoyingAppVolume:
+  bobJoyingRedisVolume:
+

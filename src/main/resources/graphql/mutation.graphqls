@@ -1,4 +1,8 @@
 type Mutation {
+    # MemberController
     signup(signupRequestDto: SignupRequestDto!): ApiResponseDto
-    login(loginRequestDto: LoginRequestDto!): LoginResponseDto
+
+    # AuthController
+    login(loginRequestDto: LoginRequestDto!): TokenResponseDto
+    reissueToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto
 }
