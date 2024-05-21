@@ -26,11 +26,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenResponseDto login(LoginRequestDto loginRequestDto) {
-        Member member = findMember(loginRequestDto.getEmail());
-        if (member == null
-            || !passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
+        Member member;
+        try {
+            member = findMember(loginRequestDto.getEmail());
+            checkPassword(loginRequestDto.getPassword(), member.getPassword());
+        } catch (CustomException ce) {
             throw new CustomException(CustomErrorCode.INVALID_ACCESS);
         }
+
         String accessToken = jwtUtil.createAccessToken(member.getEmail(), member.getRole());
         String refreshToken = jwtUtil.createRefreshToken();
 
@@ -70,6 +73,12 @@ public class AuthServiceImpl implements AuthService {
     public String logout(Member member) {
         refreshTokenRepository.deleteById(member.getId());
         return "로그아웃이 완료되었습니다.";
+    }
+
+    private void checkPassword(String rawPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS);
+        }
     }
 
     private RefreshToken findRefreshToken(Integer id) {
