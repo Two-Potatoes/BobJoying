@@ -42,4 +42,9 @@ out/
 
 ### docker-compose 환경변수
 /.env
+
+### docker-application 설정 파일
 /src/main/resources/application-docker.yml
+
+### docker-redis 설정 파일
+/docker-redis.conf

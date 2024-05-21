@@ -5,16 +5,11 @@ import org.springframework.stereotype.Service;
 
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
-import com.twoPotatoes.bobJoying.common.security.JwtUtil;
-import com.twoPotatoes.bobJoying.member.dto.LoginRequestDto;
 import com.twoPotatoes.bobJoying.member.dto.SignupRequestDto;
 import com.twoPotatoes.bobJoying.member.entity.Member;
 import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
-import com.twoPotatoes.bobJoying.member.entity.Team;
 import com.twoPotatoes.bobJoying.member.repository.MemberRepository;
-import com.twoPotatoes.bobJoying.member.repository.TeamRepository;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
     @Override
     public void signup(SignupRequestDto signupRequestDto) {
@@ -41,18 +35,6 @@ public class MemberServiceImpl implements MemberService {
             .build();
 
         memberRepository.save(targetMember);
-    }
-
-    @Override
-    public String login(LoginRequestDto loginRequestDto) {
-        Member member = findMember(loginRequestDto.getEmail());
-        if (member != null
-            && passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
-            String token = jwtUtil.createToken(member.getEmail(), member.getRole());
-            return token;
-        } else {
-            throw new CustomException(CustomErrorCode.INVALID_ACCESS);
-        }
     }
 
     private Member findMember(String email) {
