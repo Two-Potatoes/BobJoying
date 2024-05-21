@@ -25,21 +25,7 @@ public class MemberController {
         return new ApiResponseDto("회원가입이 완료되었습니다.");
     }
 
-    // TODO: 테스트로 만든 메서드들. 후에 삭제
-    @QueryMapping
-    @PreAuthorize("isAuthenticated()")
-    public String onlyAuthenticated() {
-        return "only Authenticated";
-    }
-
-    @QueryMapping
-    @Secured("ROLE_ADMIN")
-    public String onlyAdmin() {
-        return "only Admin";
-    }
-
-    @QueryMapping
-    public String everyone() {
-        return "everyone";
-    }
+    // TODO: Method마다 인가 거는 방법
+    // @PreAuthorize("isAuthenticated()")
+    // @Secured("ROLE_ADMIN")
 }
