@@ -1,0 +1,15 @@
+mutation login($input: LoginRequestDto!){
+    login(loginRequestDto: $input){
+        accessToken
+        refreshToken
+        message
+    }
+}
+
+mutation reissueToken($input: TokenRequestDto!){
+    reissueToken(tokenRequestDto: $input){
+        accessToken
+        refreshToken
+        message
+    }
+}
