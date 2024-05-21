@@ -66,6 +66,12 @@ public class AuthServiceImpl implements AuthService {
         return new TokenResponseDto(newAccessToken, newRefreshToken, "토큰 재발급이 완료되었습니다.");
     }
 
+    @Override
+    public String logout(Member member) {
+        refreshTokenRepository.deleteById(member.getId());
+        return "로그아웃이 완료되었습니다.";
+    }
+
     private RefreshToken findRefreshToken(Integer id) {
         return refreshTokenRepository.findById(id).orElseThrow(
             () -> new CustomException(CustomErrorCode.INVALID_ACCESS)
