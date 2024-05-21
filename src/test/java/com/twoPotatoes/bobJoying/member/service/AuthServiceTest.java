@@ -193,7 +193,7 @@ public class AuthServiceTest {
         Member member = Member.builder().id(memberId).build();
 
         // When
-        String msg = authService.logout(member);
+        authService.logout(member);
 
         // Then
         then(refreshTokenRepository).should().deleteById(memberId);
