@@ -31,7 +31,8 @@ public class JwtUtil {
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 30 * 60 * 1000L; // 30분
+    private final long ACCESS_TOKEN_TIME = 30 * 60 * 1000L; // 30분
+    private final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 일주일
 
     @Value("${JWT_SECRET_KEY}") // Base64 Encode 한 SecretKey
     private String secretKey;
@@ -50,17 +51,26 @@ public class JwtUtil {
 
     // JWT 생성
     // 토큰 생성
-    public String createToken(String email, MemberRoleEnum role) {
+    public String createAccessToken(String email, MemberRoleEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
             Jwts.builder()
                 .setSubject(email) // 사용자 식별자값(ID)
                 .claim(AUTHORIZATION_KEY, role) // 사용자 권한
-                .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
+                .setExpiration(new Date(date.getTime() + ACCESS_TOKEN_TIME)) // 만료 시간
                 .setIssuedAt(date) // 발급일
                 .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                 .compact();
+    }
+
+    public String createRefreshToken() {
+        Date date = new Date();
+
+        return Jwts.builder()
+            .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME)) // 만료 시간
+            .signWith(key, signatureAlgorithm)  // 암호화 알고리즘
+            .compact();
     }
 
     // HttpServletRequest 에서 Header Value : JWT 가져오기
