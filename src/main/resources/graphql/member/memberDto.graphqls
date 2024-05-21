@@ -1,3 +1,5 @@
+# input
+
 input SignupRequestDto {
     email: String!
     password: String!
@@ -9,7 +11,15 @@ input LoginRequestDto {
     password: String!
 }
 
-type LoginResponseDto {
-    token: String!
+input TokenRequestDto {
+    accessToken: String!
+    refreshToken: String!
+}
+
+# type
+
+type TokenResponseDto {
+    accessToken: String!
+    refreshToken: String!
     message: String!
 }
