@@ -13,3 +13,7 @@ mutation reissueToken($input: TokenRequestDto!){
         message
     }
 }
+
+query logout {
+    logout
+}
