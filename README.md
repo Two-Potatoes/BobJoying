@@ -21,7 +21,7 @@
 
 ## 📐 Architecture
 
-<img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/046ebb25-0069-49ea-aa52-6edb87ef2ec6" width="700px">
+<img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/8d6575b8-7b57-470b-bc0f-39894796dcb9" width="700px">
 
 <br><br>
 
