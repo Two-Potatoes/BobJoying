@@ -164,10 +164,14 @@ spring:
       enabled: true
   datasource:
     url: { Docker_DB_URL }
-    username: { Docker_DB_username }
-    password: { Docker_DB_password }
+    username: { Docker_DB_Username }
+    password: { Docker_DB_Password }
     driver-class-name: org.postgresql.Driver
-
+  data:
+    redis:
+      password: { Docker_Redis_Password }
+      port: 6378      # 로컬 Redis의 port와 충돌이 생길 수도 있으므로
+      host: host.docker.internal
 JWT_SECRET_KEY: { BASE64로 encoding된 key }
 ```
 
@@ -188,6 +192,9 @@ POSTGRES_DOCKER_PORT=5432
 
 SPRING_LOCAL_PORT=8080
 SPRING_DOCKER_PORT=8080
+
+REDIS_LOCAL_PORT=6378
+REDIS_DOCKER_PORT=6379
 ```
 
 </details>
@@ -199,10 +206,9 @@ SPRING_DOCKER_PORT=8080
 
 ```text
 spring.datasource.url={ 로컬_DB_URL }
-spring.datasource.username={ 로컬_DB_username }
-spring.datasource.password={ 로컬_DB_password }
+spring.datasource.username={ 로컬_DB_Username }
+spring.datasource.password={ 로컬_DB_Password }
 spring.datasource.driver-class-name=org.postgresql.Driver
-
 
 # GraphQL
 # graphiql을 통해 테스트 가능 여부 (localhost:8080/graphiql)
@@ -210,6 +216,11 @@ spring.graphql.graphiql.enabled=true
 
 # JWT
 JWT_SECRET_KEY={ BASE64로 encoding된 key }
+
+# Redis
+spring.data.redis.password={ 로컬_Redis_Password }
+spring.data.redis.port=6379
+spring.data.redis.host=localhost
 ```
 
 </details>
