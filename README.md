@@ -8,10 +8,10 @@
 
 🙋‍♀️ 우리 서비스는요...
 
-1. 냉장고의 **식재료를 관리**해줘요! 
-2. 냉장고의 식재료로 할 수 있는 **레시피를 등록하고 관리**할 수 있어요!
-3. 냉장고를 공유하는 그룹원에게 먹고 싶은 **레시피를 요청**할 수 있어요!
-4. **식사 기록**이 가능하고 그룹원들의 오늘 식사 기록을 **피드**에서 확인할 수 있어요!
+1. 냉장고의 **식재료를 관리**해줘요! - 개발 중⏩
+2. 냉장고의 식재료로 할 수 있는 **레시피를 등록하고 관리**할 수 있어요! - 개발 중⏩
+3. 냉장고를 공유하는 그룹원에게 먹고 싶은 **레시피를 요청**할 수 있어요! - 개발 중⏩
+4. **식사 기록**이 가능하고 그룹원들의 오늘 식사 기록을 **피드**에서 확인할 수 있어요! - 개발 중⏩
 
 <img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/8c5fadcd-acc6-4031-bc3a-b5711cabf110" width="400px">
 
@@ -21,7 +21,7 @@
 
 ## 📐 Architecture
 
-<img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/046ebb25-0069-49ea-aa52-6edb87ef2ec6" width="700px">
+<img src="https://github.com/Two-Potatoes/BobJoying-Back/assets/130378232/8d6575b8-7b57-470b-bc0f-39894796dcb9" width="700px">
 
 <br><br>
 
@@ -47,6 +47,7 @@
 <img src="https://img.shields.io/badge/GraphQL-E10098?style=flat-square&logo=graphql&logoColor=white">&nbsp;
 
 <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Querydsl-3E87D0?style=flat-square&logo=querydsl&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white">&nbsp;
@@ -144,6 +145,13 @@
 
 [2. Docker에서 Spring Boot 프로젝트 build 시 GraphQL 요청을 보내지 못하는 오류](https://argente29.tistory.com/143)
 
+[3. Slack Webhook을 이용한 메시지 미리보기가 안 되는 오류](https://argente29.tistory.com/145)
+
+[4. 만료된 토큰에서 토큰에 저장된 정보를 가져올 수 없는 오류](https://argente29.tistory.com/146)
+
+[5. Redis Docker Container와 Spring Boot 연결이 안 되는 오류](https://argente29.tistory.com/147)
+
+
 <br>
 
 ## 🐳 Docker Compose build 
@@ -164,10 +172,14 @@ spring:
       enabled: true
   datasource:
     url: { Docker_DB_URL }
-    username: { Docker_DB_username }
-    password: { Docker_DB_password }
+    username: { Docker_DB_Username }
+    password: { Docker_DB_Password }
     driver-class-name: org.postgresql.Driver
-
+  data:
+    redis:
+      password: { Docker_Redis_Password }
+      port: 6378      # 로컬 Redis의 port와 충돌이 생길 수도 있으므로
+      host: host.docker.internal
 JWT_SECRET_KEY: { BASE64로 encoding된 key }
 ```
 
@@ -188,6 +200,9 @@ POSTGRES_DOCKER_PORT=5432
 
 SPRING_LOCAL_PORT=8080
 SPRING_DOCKER_PORT=8080
+
+REDIS_LOCAL_PORT=6378
+REDIS_DOCKER_PORT=6379
 ```
 
 </details>
@@ -199,10 +214,9 @@ SPRING_DOCKER_PORT=8080
 
 ```text
 spring.datasource.url={ 로컬_DB_URL }
-spring.datasource.username={ 로컬_DB_username }
-spring.datasource.password={ 로컬_DB_password }
+spring.datasource.username={ 로컬_DB_Username }
+spring.datasource.password={ 로컬_DB_Password }
 spring.datasource.driver-class-name=org.postgresql.Driver
-
 
 # GraphQL
 # graphiql을 통해 테스트 가능 여부 (localhost:8080/graphiql)
@@ -210,6 +224,11 @@ spring.graphql.graphiql.enabled=true
 
 # JWT
 JWT_SECRET_KEY={ BASE64로 encoding된 key }
+
+# Redis
+spring.data.redis.password={ 로컬_Redis_Password }
+spring.data.redis.port=6379
+spring.data.redis.host=localhost
 ```
 
 </details>
