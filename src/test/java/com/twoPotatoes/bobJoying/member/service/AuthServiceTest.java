@@ -184,4 +184,19 @@ public class AuthServiceTest {
         assertEquals(tokenResponseDto.getAccessToken(), newAccessToken);
         assertEquals(tokenResponseDto.getRefreshToken(), newRefreshToken);
     }
+
+    @Test
+    @DisplayName("logout 성공")
+    void logout() {
+        // Given
+        int memberId = 10;
+        Member member = Member.builder().id(memberId).build();
+
+        // When
+        authService.logout(member);
+
+        // Then
+        then(refreshTokenRepository).should().deleteById(memberId);
+        then(refreshTokenRepository).shouldHaveNoMoreInteractions();
+    }
 }

@@ -3,6 +3,7 @@ package com.twoPotatoes.bobJoying.member.service;
 import com.twoPotatoes.bobJoying.member.dto.LoginRequestDto;
 import com.twoPotatoes.bobJoying.member.dto.TokenRequestDto;
 import com.twoPotatoes.bobJoying.member.dto.TokenResponseDto;
+import com.twoPotatoes.bobJoying.member.entity.Member;
 
 public interface AuthService {
     /**
@@ -20,4 +21,12 @@ public interface AuthService {
      * @return 새로운 Access Token, 새로운 Refresh Token
      */
     TokenResponseDto reissueToken(TokenRequestDto tokenRequestDto);
+
+    /**
+     * 인증된 사용자의 저장되어 있던 Refresh Token 을 삭제합니다.
+     *
+     * @param member 인증된 사용자
+     * @return 로그아웃 성공 메시지
+     */
+    String logout(Member member);
 }

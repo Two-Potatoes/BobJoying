@@ -12,8 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.graphql.test.tester.GraphQlTester;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.member.dto.TokenResponseDto;
+import com.twoPotatoes.bobJoying.member.entity.Member;
+import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
 import com.twoPotatoes.bobJoying.member.service.AuthService;
 
 @GraphQlTest(AuthController.class)
@@ -74,5 +79,29 @@ public class AuthControllerTest {
             .path("reissueToken.refreshToken")
             .entity(String.class)
             .isEqualTo(newRefreshToken);
+    }
+
+    @Test
+    @DisplayName("AuthController Test - logout")
+    void logout() {
+        // Given
+        Member member = Member.builder().role(MemberRoleEnum.MEMBER).build();
+        UserDetailsImpl userDetails = new UserDetailsImpl(member);
+        SecurityContextHolder
+            .getContext()
+            .setAuthentication(
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
+            );
+
+        String message = "로그아웃이 완료되었습니다.";
+        given(authService.logout(any(Member.class))).willReturn(message);
+
+        // When
+        graphQlTester.documentName("auth")
+            .operationName("logout")
+            .execute()
+            .path("logout")
+            .entity(String.class)
+            .isEqualTo(message);
     }
 }
