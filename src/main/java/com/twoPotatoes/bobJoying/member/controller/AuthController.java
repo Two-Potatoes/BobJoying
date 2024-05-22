@@ -31,7 +31,7 @@ public class AuthController {
         return authService.reissueToken(tokenRequestDto);
     }
 
-    @QueryMapping
+    @MutationMapping
     @PreAuthorize("isAuthenticated()")
     public String logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return authService.logout(userDetails.getMember());
