@@ -7,6 +7,8 @@ import com.twoPotatoes.bobJoying.recipe.entity.RecipeIngredient;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,8 +34,9 @@ public class Ingredient {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 100)
-    private String storageArea;
+    private StorageEnum storage;
 
     // cascade 옵션을 걸어주지 않습니다. 잘못하다가 유저들의 정보가 삭제될 수도 있기 때문입니다.
     @OneToMany(mappedBy = "ingredient")
