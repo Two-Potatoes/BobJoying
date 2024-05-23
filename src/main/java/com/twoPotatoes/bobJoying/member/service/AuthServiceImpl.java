@@ -3,6 +3,7 @@ package com.twoPotatoes.bobJoying.member.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.common.security.JwtUtil;
@@ -70,9 +71,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String logout(Member member) {
+    public ApiResponseDto logout(Member member) {
         refreshTokenRepository.deleteById(member.getId());
-        return "로그아웃이 완료되었습니다.";
+        return new ApiResponseDto("로그아웃이 완료되었습니다.");
     }
 
     private void checkPassword(String rawPassword, String encodedPassword) {

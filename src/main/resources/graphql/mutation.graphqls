@@ -5,5 +5,5 @@ type Mutation {
     # AuthController
     login(loginRequestDto: LoginRequestDto!): TokenResponseDto!
     reissueToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto!
-    logout: String!
+    logout: ApiResponseDto!
 }
