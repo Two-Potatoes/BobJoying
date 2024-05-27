@@ -1,5 +1,7 @@
 package com.twoPotatoes.bobJoying.ingredient.dto;
 
+import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
+
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public class MyIngredientCreateRequestDto extends MyIngredientBaseDto {
-    @Min(value = 1, message = "id는 1이상이어야 합니다.")
+    @Min(value = 1, message = MyIngredientConstants.INVALID_INGREDIENT_ID)
     private int ingredientId;
 }

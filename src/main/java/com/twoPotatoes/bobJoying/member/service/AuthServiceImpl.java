@@ -3,6 +3,7 @@ package com.twoPotatoes.bobJoying.member.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.twoPotatoes.bobJoying.common.constants.MemberConstants;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
@@ -41,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
         RefreshToken memberToken = new RefreshToken(member.getId(), refreshToken);
         refreshTokenRepository.save(memberToken);
 
-        return new TokenResponseDto(accessToken, refreshToken, "로그인이 완료되었습니다.");
+        return new TokenResponseDto(accessToken, refreshToken, MemberConstants.LOGIN_SUCCESS);
     }
 
     @Override
@@ -67,13 +68,13 @@ public class AuthServiceImpl implements AuthService {
         String newRefreshToken = jwtUtil.createRefreshToken();
         String newAccessToken = jwtUtil.createAccessToken(email, member.getRole());
         refreshTokenRepository.save(new RefreshToken(member.getId(), newRefreshToken));
-        return new TokenResponseDto(newAccessToken, newRefreshToken, "토큰 재발급이 완료되었습니다.");
+        return new TokenResponseDto(newAccessToken, newRefreshToken, MemberConstants.REISSUE_TOKEN_SUCCESS);
     }
 
     @Override
     public ApiResponseDto logout(Member member) {
         refreshTokenRepository.deleteById(member.getId());
-        return new ApiResponseDto("로그아웃이 완료되었습니다.");
+        return new ApiResponseDto(MemberConstants.LOGOUT_SUCCESS);
     }
 
     private void checkPassword(String rawPassword, String encodedPassword) {

@@ -2,6 +2,7 @@ package com.twoPotatoes.bobJoying.ingredient.dto;
 
 import java.time.LocalDate;
 
+import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
 import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
 
 import jakarta.validation.constraints.Size;
@@ -16,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public abstract class MyIngredientBaseDto {
     private float quantity;
-    @Size(max = 10, message = "단위는 10자를 넘어갈 수 없습니다.")
+    @Size(max = 10, message = MyIngredientConstants.INVALID_UNIT)
     private String unit;
     private LocalDate storageDate;
     private LocalDate expirationDate;

@@ -1,12 +1,14 @@
 package com.twoPotatoes.bobJoying.ingredient.entity;
 
+import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
+
 import lombok.Getter;
 
 @Getter
 public enum StorageEnum {
-    FRIDGE("냉장"),
-    FREEZER("냉동"),
-    ROOM_TEMPERATURE("실온");
+    FRIDGE(MyIngredientConstants.FRIDGE),
+    FREEZER(MyIngredientConstants.FREEZER),
+    ROOM_TEMPERATURE(MyIngredientConstants.ROOM_TEMPERATURE);
 
     private final String storage;
 

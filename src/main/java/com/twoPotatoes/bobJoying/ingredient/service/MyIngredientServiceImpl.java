@@ -2,6 +2,7 @@ package com.twoPotatoes.bobJoying.ingredient.service;
 
 import org.springframework.stereotype.Service;
 
+import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
@@ -36,7 +37,7 @@ public class MyIngredientServiceImpl implements MyIngredientService {
             .storage(requestDto.getStorage())
             .build();
         myIngredientRepository.save(myIngredient);
-        return new ApiResponseDto("재료 등록이 완료되었습니다.");
+        return new ApiResponseDto(MyIngredientConstants.CREATE_MY_INGREDIENT_SUCCESS);
     }
 
     private void validateRequest(MyIngredientCreateRequestDto requestDto) {
