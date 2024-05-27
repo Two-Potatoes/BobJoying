@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
@@ -24,7 +23,6 @@ import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
 import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 import com.twoPotatoes.bobJoying.ingredient.repository.MyIngredientRepository;
 import com.twoPotatoes.bobJoying.member.entity.Member;
-import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
 
 @ExtendWith(MockitoExtension.class)
 class MyIngredientServiceTest {
