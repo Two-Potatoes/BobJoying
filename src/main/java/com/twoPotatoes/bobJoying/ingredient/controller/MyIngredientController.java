@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
-import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.service.MyIngredientService;
 
 import jakarta.validation.Valid;
