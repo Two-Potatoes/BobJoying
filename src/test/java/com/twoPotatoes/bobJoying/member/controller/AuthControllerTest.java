@@ -11,10 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.twoPotatoes.bobJoying.common.config.GraphQlConfig;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.member.dto.TokenResponseDto;
@@ -23,6 +25,7 @@ import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
 import com.twoPotatoes.bobJoying.member.service.AuthService;
 
 @GraphQlTest(AuthController.class)
+@Import(GraphQlConfig.class)
 public class AuthControllerTest {
     @Autowired
     private GraphQlTester graphQlTester;
