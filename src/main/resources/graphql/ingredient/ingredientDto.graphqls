@@ -1,0 +1,14 @@
+enum StorageEnum {
+    FRIDGE
+    FREEZER
+    ROOM_TEMPERATURE
+}
+
+input MyIngredientCreateRequestDto {
+    quantity: Float!
+    unit: String!
+    storageDate: Date!
+    expirationDate: Date
+    storage: StorageEnum!
+    ingredientId: Int!
+}
