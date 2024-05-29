@@ -38,6 +38,9 @@ public class Ingredient {
     @Column(nullable = false, length = 100)
     private StorageEnum storage;
 
+    @Column(nullable = false, length = 10)
+    private String unit;
+
     // cascade 옵션을 걸어주지 않습니다. 잘못하다가 유저들의 정보가 삭제될 수도 있기 때문입니다.
     @OneToMany(mappedBy = "ingredient")
     @Builder.Default
