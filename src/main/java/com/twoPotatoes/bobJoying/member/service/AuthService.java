@@ -1,5 +1,6 @@
 package com.twoPotatoes.bobJoying.member.service;
 
+import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.member.dto.LoginRequestDto;
 import com.twoPotatoes.bobJoying.member.dto.TokenRequestDto;
 import com.twoPotatoes.bobJoying.member.dto.TokenResponseDto;
@@ -28,5 +29,5 @@ public interface AuthService {
      * @param member 인증된 사용자
      * @return 로그아웃 성공 메시지
      */
-    String logout(Member member);
+    ApiResponseDto logout(Member member);
 }

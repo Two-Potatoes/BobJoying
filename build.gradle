@@ -22,6 +22,12 @@ repositories {
 }
 
 dependencies {
+    // H2
+    runtimeOnly 'com.h2database:h2'
+
+    // GraphQL Extended Scalar
+    implementation 'com.graphql-java:graphql-java-extended-scalars:22.0'
+
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 

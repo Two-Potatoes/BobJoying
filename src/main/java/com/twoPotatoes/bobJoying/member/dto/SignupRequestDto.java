@@ -1,5 +1,7 @@
 package com.twoPotatoes.bobJoying.member.dto;
 
+import com.twoPotatoes.bobJoying.common.constants.MemberConstants;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,19 +16,19 @@ import lombok.Setter;
 public class SignupRequestDto {
     @Email(
         regexp = "^.+@.+\\..+$",
-        message = "올바른 이메일 형식이 아닙니다."
+        message = MemberConstants.INVALID_EMAIL
     )
-    @NotBlank(message = "이메일 칸은 비울 수 없습니다.")
+    @NotBlank(message = MemberConstants.EMAIL_NOT_BLANK)
     private String email;
 
-    @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
+    @Size(min = 8, message = MemberConstants.TOO_SHORT_PASSWORD)
     @Pattern(
-        regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[!?@#$%^&*_=+-]).+$",
-        message = "비밀번호는 영소문자, 숫자, 특수문자(!,?,@,#,$,%,^,&,*,_,=,+,-)가 한 개 이상 포함되어야 합니다.")
-    @NotBlank(message = "비밀번호 칸은 비울 수 없습니다.")
+        regexp = MemberConstants.PASSWORD_REGULAR_EXPRESSION,
+        message = MemberConstants.INVALID_PASSWORD)
+    @NotBlank(message = MemberConstants.PASSWORD_NOT_BLANK)
     private String password;
 
-    @NotBlank(message = "닉네임 칸은 비울 수 없습니다.")
+    @NotBlank(message = MemberConstants.NICKNAME_NOT_BLANK)
     private String nickname;
 
 }

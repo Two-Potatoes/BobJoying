@@ -11,10 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.GraphQlTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.twoPotatoes.bobJoying.common.config.GraphQlConfig;
+import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.member.dto.TokenResponseDto;
 import com.twoPotatoes.bobJoying.member.entity.Member;
@@ -22,6 +25,7 @@ import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
 import com.twoPotatoes.bobJoying.member.service.AuthService;
 
 @GraphQlTest(AuthController.class)
+@Import(GraphQlConfig.class)
 public class AuthControllerTest {
     @Autowired
     private GraphQlTester graphQlTester;
@@ -93,15 +97,14 @@ public class AuthControllerTest {
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
             );
 
-        String message = "로그아웃이 완료되었습니다.";
-        given(authService.logout(any(Member.class))).willReturn(message);
+        ApiResponseDto apiResponseDto = new ApiResponseDto("로그아웃 성공");
+        given(authService.logout(any(Member.class))).willReturn(apiResponseDto);
 
         // When
         graphQlTester.documentName("auth")
             .operationName("logout")
             .execute()
-            .path("logout")
-            .entity(String.class)
-            .isEqualTo(message);
+            .path("logout.message")
+            .entity(String.class);
     }
 }

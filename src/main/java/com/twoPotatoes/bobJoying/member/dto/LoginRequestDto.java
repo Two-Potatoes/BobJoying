@@ -1,5 +1,7 @@
 package com.twoPotatoes.bobJoying.member.dto;
 
+import com.twoPotatoes.bobJoying.common.constants.MemberConstants;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,10 +12,10 @@ import lombok.Setter;
 @Builder
 public class LoginRequestDto {
 
-    @NotBlank(message = "이메일 칸은 비울 수 없습니다.")
+    @NotBlank(message = MemberConstants.EMAIL_NOT_BLANK)
     private String email;
 
-    @NotBlank(message = "비밀번호 칸은 비울 수 없습니다.")
+    @NotBlank(message = MemberConstants.PASSWORD_NOT_BLANK)
     private String password;
 
 }

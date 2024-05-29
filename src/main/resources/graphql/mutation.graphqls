@@ -1,9 +1,12 @@
 type Mutation {
     # MemberController
-    signup(signupRequestDto: SignupRequestDto!): ApiResponseDto!
+    signup(signupRequestDto: SignupRequestDto!): ApiResponseDto
 
     # AuthController
-    login(loginRequestDto: LoginRequestDto!): TokenResponseDto!
-    reissueToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto!
-    logout: String!
+    login(loginRequestDto: LoginRequestDto!): TokenResponseDto
+    reissueToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto
+    logout: ApiResponseDto
+
+    # MyIngredientController
+    createMyIngredient(myIngredientCreateRequestDto: MyIngredientCreateRequestDto!): ApiResponseDto
 }

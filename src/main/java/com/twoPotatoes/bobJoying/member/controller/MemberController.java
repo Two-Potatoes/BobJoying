@@ -4,6 +4,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
+import com.twoPotatoes.bobJoying.common.constants.MemberConstants;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.member.dto.SignupRequestDto;
 import com.twoPotatoes.bobJoying.member.service.MemberService;
@@ -19,7 +20,7 @@ public class MemberController {
     @MutationMapping
     public ApiResponseDto signup(@Argument @Valid SignupRequestDto signupRequestDto) {
         memberService.signup(signupRequestDto);
-        return new ApiResponseDto("회원가입이 완료되었습니다.");
+        return new ApiResponseDto(MemberConstants.SIGNUP_SUCCESS);
     }
 
     // TODO: Method마다 인가 거는 방법
