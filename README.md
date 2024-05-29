@@ -233,9 +233,21 @@ spring.data.redis.host=localhost
 
 </details>
 
-##### 4️⃣ 로컬에서 project를 build해서 `jar`파일을 생성합니다.
+##### 4️⃣ 프로젝트 가장 상위 폴더에 `docker-redis.conf` 파일을 생성합니다. (Docker Redis 환경 설정)
 
-##### 5️⃣ 터미널에서 docker compose 실행 명령어를 입력하여 프로젝트를 build합니다.
+<details>
+<summary>docker-redis.conf</summary>
+
+```text
+bind 0.0.0.0
+requirepass {Docker_Redis_Password}
+```
+
+</details>
+
+##### 5️⃣ 로컬에서 project를 build해서 `jar`파일을 생성합니다.
+
+##### 6️⃣ 터미널에서 docker compose 실행 명령어를 입력하여 프로젝트를 build합니다.
 
 ```shell
 docker-compose -f docker-compose-dev.yml up -d
