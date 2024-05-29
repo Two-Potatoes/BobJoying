@@ -7,8 +7,27 @@ enum StorageEnum {
 input MyIngredientCreateRequestDto {
     quantity: Float!
     unit: String!
-    storageDate: Date!
+    storageDate: Date
     expirationDate: Date
     storage: StorageEnum!
     ingredientId: Int!
+}
+
+input MyIngredientUpdateRequestDto {
+    myIngredientId: ID!
+    quantity: Float!
+    unit: String!
+    storageDate: Date
+    expirationDate: Date
+    storage: StorageEnum!
+}
+
+type MyIngredientResponseDto {
+    myIngredientId: ID!
+    quantity: Float!
+    unit: String!
+    storageDate: Date
+    expirationDate: Date
+    dDay: Int
+    storage: StorageEnum!
 }
