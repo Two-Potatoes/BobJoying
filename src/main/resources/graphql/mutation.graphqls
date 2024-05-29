@@ -10,4 +10,5 @@ type Mutation {
     # MyIngredientController
     createMyIngredient(myIngredientCreateRequestDto: MyIngredientCreateRequestDto!): ApiResponseDto
     updateMyIngredient(myIngredientUpdateRequestDto: MyIngredientUpdateRequestDto!): MyIngredientResponseDto
+    deleteMyIngredient(myIngredientId: ID!): ApiResponseDto
 }
