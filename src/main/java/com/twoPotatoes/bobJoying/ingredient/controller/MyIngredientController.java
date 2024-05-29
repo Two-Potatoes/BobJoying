@@ -36,4 +36,12 @@ public class MyIngredientController {
         @Argument @Valid MyIngredientUpdateRequestDto myIngredientUpdateRequestDto) {
         return myIngredientService.updateMyIngredient(userDetails, myIngredientUpdateRequestDto);
     }
+
+    @MutationMapping
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponseDto deleteMyIngredient(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @Argument int myIngredientId) {
+        return myIngredientService.deleteMyIngredient(userDetails, myIngredientId);
+    }
 }

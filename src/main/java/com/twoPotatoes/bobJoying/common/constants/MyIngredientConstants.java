@@ -12,4 +12,5 @@ public class MyIngredientConstants {
 
     // Response Message
     public static final String CREATE_MY_INGREDIENT_SUCCESS = "재료 등록이 완료되었습니다.";
+    public static final String DELETE_MY_INGREDIENT_SUCCESS = "재료 삭제가 완료되었습니다.";
 }

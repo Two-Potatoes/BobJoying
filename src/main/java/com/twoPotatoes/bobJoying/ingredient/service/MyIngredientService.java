@@ -21,7 +21,16 @@ public interface MyIngredientService {
      *
      * @param userDetails 인증된 사용자 정보
      * @param requestDto 식재료 수정에 필요한 정보
-     * @return 식재료 수정 성공 메시지
+     * @return 수정된 식재료 정보
      */
     MyIngredientResponseDto updateMyIngredient(UserDetailsImpl userDetails, MyIngredientUpdateRequestDto requestDto);
+
+    /**
+     * ID에 맞는 식재료를 삭제합니다.
+     *
+     * @param userDetails 인증된 사용자 정보
+     * @param myIngredientId 식재료 ID
+     * @return 식재료 삭제 성공 메시지
+     */
+    ApiResponseDto deleteMyIngredient(UserDetailsImpl userDetails, int myIngredientId);
 }

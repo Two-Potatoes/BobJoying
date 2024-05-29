@@ -49,11 +49,23 @@ public class MyIngredientServiceImpl implements MyIngredientService {
         UserDetailsImpl userDetails, MyIngredientUpdateRequestDto requestDto) {
         validateRequest(requestDto.getQuantity(), requestDto.getExpirationDate(), requestDto.getStorageDate());
         MyIngredient target = findMyIngredient(requestDto.getMyIngredientId());
+        checkAuthority(userDetails, target);
+        target.update(requestDto);
+        return target.toDto();
+    }
+
+    @Override
+    public ApiResponseDto deleteMyIngredient(UserDetailsImpl userDetails, int myIngredientId) {
+        MyIngredient target = findMyIngredient(myIngredientId);
+        checkAuthority(userDetails, target);
+        myIngredientRepository.deleteById(myIngredientId);
+        return new ApiResponseDto(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS);
+    }
+
+    private static void checkAuthority(UserDetailsImpl userDetails, MyIngredient target) {
         if (!target.getMember().getId().equals(userDetails.getMember().getId())) {
             throw new CustomException(CustomErrorCode.INVALID_ACCESS);
         }
-        target.update(requestDto);
-        return target.toDto();
     }
 
     private void validateRequest(float quantity, LocalDate expirationDate, LocalDate storageDate) {
