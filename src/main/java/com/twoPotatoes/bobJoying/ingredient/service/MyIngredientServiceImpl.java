@@ -1,6 +1,9 @@
 package com.twoPotatoes.bobJoying.ingredient.service;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
@@ -8,12 +11,13 @@ import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.MyIngredient;
 import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 import com.twoPotatoes.bobJoying.ingredient.repository.MyIngredientRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,7 +29,7 @@ public class MyIngredientServiceImpl implements MyIngredientService {
 
     @Override
     public ApiResponseDto createMyIngredient(UserDetailsImpl userDetails, MyIngredientCreateRequestDto requestDto) {
-        validateRequest(requestDto);
+        validateRequest(requestDto.getQuantity(), requestDto.getExpirationDate(), requestDto.getStorageDate());
         Ingredient ingredient = findIngredient(requestDto.getIngredientId());
         MyIngredient myIngredient = MyIngredient.builder()
             .member(userDetails.getMember())
@@ -40,15 +44,38 @@ public class MyIngredientServiceImpl implements MyIngredientService {
         return new ApiResponseDto(MyIngredientConstants.CREATE_MY_INGREDIENT_SUCCESS);
     }
 
-    private void validateRequest(MyIngredientCreateRequestDto requestDto) {
+    @Override
+    public MyIngredientResponseDto updateMyIngredient(
+        UserDetailsImpl userDetails, MyIngredientUpdateRequestDto requestDto) {
+        validateRequest(requestDto.getQuantity(), requestDto.getExpirationDate(), requestDto.getStorageDate());
+        MyIngredient target = findMyIngredient(requestDto.getMyIngredientId());
+        if (!target.getMember().getId().equals(userDetails.getMember().getId())) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS);
+        }
+        target.update(requestDto);
+        return target.toDto();
+    }
+
+    private void validateRequest(float quantity, LocalDate expirationDate, LocalDate storageDate) {
         // quantity는 소수점 첫째 자리까지 허용한다.
-        if ((requestDto.getQuantity() * 10) % 1 != 0) {
+        if ((quantity * 10) % 1 != 0) {
             throw new CustomException(CustomErrorCode.INVALID_QUANTITY);
         }
-        // 소비기한이 null이 아닌 경우 식재료 등록 날짜는 소비기한을 넘길 수 없다.
-        if (requestDto.getExpirationDate() != null) {
-            if (requestDto.getExpirationDate().isBefore(requestDto.getStorageDate())) {
+
+        // 소비기한과 등록 날짜가 null이 아닌 경우 소비기한은 등록 날짜 이후여야 한다.
+        if (expirationDate != null && storageDate != null) {
+            if (expirationDate.isBefore(storageDate)) {
                 throw new CustomException(CustomErrorCode.INVALID_EXPIRATION_DATE);
+            }
+        } else if (expirationDate != null) {
+            // 등록 날짜가 null인 경우 소비기한은 오늘을 포함하여 그 이후의 날짜여야 한다.
+            if (expirationDate.isBefore(LocalDate.now())) {
+                throw new CustomException(CustomErrorCode.INVALID_EXPIRATION_DATE);
+            }
+
+            // 소비기한은 허용된 범위를 초과할 수 없다.
+            if (expirationDate.isAfter(LocalDate.now().plusYears(50))) {
+                throw new CustomException(CustomErrorCode.TOO_LONG_EXPIRATION_DATE);
             }
         }
     }
@@ -56,6 +83,12 @@ public class MyIngredientServiceImpl implements MyIngredientService {
     private Ingredient findIngredient(int id) {
         return ingredientRepository.findById(id).orElseThrow(
             () -> new CustomException(CustomErrorCode.INGREDIENT_NOT_FOUND)
+        );
+    }
+
+    private MyIngredient findMyIngredient(int id) {
+        return myIngredientRepository.findById(id).orElseThrow(
+            () -> new CustomException(CustomErrorCode.MY_INGREDIENT_NOT_FOUND)
         );
     }
 }
