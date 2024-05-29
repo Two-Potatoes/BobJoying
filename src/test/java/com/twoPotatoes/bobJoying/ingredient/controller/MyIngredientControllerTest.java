@@ -106,4 +106,20 @@ class MyIngredientControllerTest {
             .operationName("updateMyIngredient")
             .execute();
     }
+
+    @Test
+    @DisplayName("MyIngredientController Test - deleteMyIngredient")
+    void deleteMyIngredient() {
+        // given
+        given(myIngredientService.deleteMyIngredient(userDetails, 1)).willReturn(apiResponseDto);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", 1)
+            .operationName("deleteMyIngredient")
+            .execute()
+            .path("deleteMyIngredient.message")
+            .entity(String.class)
+            .isEqualTo(apiResponseDto.getMessage());
+    }
 }

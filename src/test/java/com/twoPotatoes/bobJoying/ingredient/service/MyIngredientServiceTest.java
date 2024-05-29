@@ -15,8 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.twoPotatoes.bobJoying.common.constants.ErrorMsgConstants;
 import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
+import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
@@ -197,5 +197,22 @@ class MyIngredientServiceTest {
         assertEquals(updateRequestDto.getMyIngredientId(), responseDto.getMyIngredientId());
         int dday = (int)ChronoUnit.DAYS.between(LocalDate.now(), updateRequestDto.getExpirationDate());
         assertEquals(dday, responseDto.getDDay());
+    }
+
+    @Test
+    @DisplayName("deleteMyIngredient 성공")
+    void deleteMyIngredientSuccess() {
+        // given
+        Member member = Member.builder().id(1).build();
+        MyIngredient myIngredient = MyIngredient.builder().id(1).member(member).build();
+        given(myIngredientRepository.findById(anyInt())).willReturn(Optional.of(myIngredient));
+
+        // when
+        ApiResponseDto apiResponseDto = myIngredientService.deleteMyIngredient(userDetails, 1);
+
+        // then
+        then(myIngredientRepository).should().deleteById(1);
+        then(myIngredientRepository).shouldHaveNoMoreInteractions();
+        assertEquals(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS, apiResponseDto.getMessage());
     }
 }
