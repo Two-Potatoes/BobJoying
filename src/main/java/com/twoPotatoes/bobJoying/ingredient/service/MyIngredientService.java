@@ -33,4 +33,13 @@ public interface MyIngredientService {
      * @return 식재료 삭제 성공 메시지
      */
     ApiResponseDto deleteMyIngredient(UserDetailsImpl userDetails, int myIngredientId);
+
+    /**
+     * ID에 맞는 식재료를 조회합니다.
+     *
+     * @param userDetails 인증된 사용자 정보
+     * @param myIngredientId 식재료 ID
+     * @return 해당 식재료 정보
+     */
+    MyIngredientResponseDto getMyIngredient(UserDetailsImpl userDetails, int myIngredientId);
 }

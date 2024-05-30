@@ -63,6 +63,13 @@ public class MyIngredientServiceImpl implements MyIngredientService {
         return new ApiResponseDto(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS);
     }
 
+    @Override
+    public MyIngredientResponseDto getMyIngredient(UserDetailsImpl userDetails, int myIngredientId) {
+        MyIngredient target = findMyIngredient(myIngredientId);
+        checkAuthority(userDetails, target.getMember());
+        return target.toDto();
+    }
+
     private static void checkAuthority(UserDetailsImpl userDetails, Member member) {
         if (!member.getId().equals(userDetails.getMember().getId())) {
             throw new CustomException(CustomErrorCode.INVALID_ACCESS);
