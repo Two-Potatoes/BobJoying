@@ -17,6 +17,7 @@ import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.MyIngredient;
 import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 import com.twoPotatoes.bobJoying.ingredient.repository.MyIngredientRepository;
+import com.twoPotatoes.bobJoying.member.entity.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,7 +50,7 @@ public class MyIngredientServiceImpl implements MyIngredientService {
         UserDetailsImpl userDetails, MyIngredientUpdateRequestDto requestDto) {
         validateRequest(requestDto.getQuantity(), requestDto.getExpirationDate(), requestDto.getStorageDate());
         MyIngredient target = findMyIngredient(requestDto.getMyIngredientId());
-        checkAuthority(userDetails, target);
+        checkAuthority(userDetails, target.getMember());
         target.update(requestDto);
         return target.toDto();
     }
@@ -57,13 +58,13 @@ public class MyIngredientServiceImpl implements MyIngredientService {
     @Override
     public ApiResponseDto deleteMyIngredient(UserDetailsImpl userDetails, int myIngredientId) {
         MyIngredient target = findMyIngredient(myIngredientId);
-        checkAuthority(userDetails, target);
+        checkAuthority(userDetails, target.getMember());
         myIngredientRepository.deleteById(myIngredientId);
         return new ApiResponseDto(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS);
     }
 
-    private static void checkAuthority(UserDetailsImpl userDetails, MyIngredient target) {
-        if (!target.getMember().getId().equals(userDetails.getMember().getId())) {
+    private static void checkAuthority(UserDetailsImpl userDetails, Member member) {
+        if (!member.getId().equals(userDetails.getMember().getId())) {
             throw new CustomException(CustomErrorCode.INVALID_ACCESS);
         }
     }
