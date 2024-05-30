@@ -14,9 +14,7 @@ assignees: JisooPyo
 
 제목 헤더에는 다음이 들어갈 수 있습니다: [init], [feature], [hotfix], [docs], [refactor], [CI], [perf] -->
 
-## Issue
-
-### 1️⃣ Notion link
+# 1️⃣ Notion link
 
 <!-- 노션 링크가 있다면 -->
 [이슈 관련 노션 링크](링크)
@@ -24,12 +22,16 @@ assignees: JisooPyo
 <!-- 노션 링크가 없다면 -->
 없음 ✅
 
-### 2️⃣ Description
+<br>
+
+# 2️⃣ Description
 
 <!-- 이슈에 대해 설명해주세요 -->
 
 * 이슈 설명
 
-### 3️⃣ 기타
+<br>
+
+# 3️⃣ 기타
 
 * 기타
