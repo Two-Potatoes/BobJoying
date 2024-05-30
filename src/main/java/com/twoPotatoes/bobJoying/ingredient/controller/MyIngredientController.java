@@ -2,6 +2,7 @@ package com.twoPotatoes.bobJoying.ingredient.controller;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -43,5 +44,13 @@ public class MyIngredientController {
         @AuthenticationPrincipal UserDetailsImpl userDetails,
         @Argument int myIngredientId) {
         return myIngredientService.deleteMyIngredient(userDetails, myIngredientId);
+    }
+
+    @QueryMapping
+    @PreAuthorize("isAuthenticated()")
+    public MyIngredientResponseDto getMyIngredient(
+        @AuthenticationPrincipal UserDetailsImpl userDetails,
+        @Argument int myIngredientId) {
+        return myIngredientService.getMyIngredient(userDetails, myIngredientId);
     }
 }

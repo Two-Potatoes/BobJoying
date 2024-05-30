@@ -122,4 +122,18 @@ class MyIngredientControllerTest {
             .entity(String.class)
             .isEqualTo(apiResponseDto.getMessage());
     }
+
+    @Test
+    @DisplayName("MyIngredientController Test - getMyIngredient")
+    void getMyIngredient() {
+        // given
+        MyIngredientResponseDto myIngredientResponseDto = new MyIngredientResponseDto();
+        given(myIngredientService.getMyIngredient(userDetails, 1)).willReturn(myIngredientResponseDto);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", 1)
+            .operationName("getMyIngredient")
+            .execute();
+    }
 }

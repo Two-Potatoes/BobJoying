@@ -21,3 +21,15 @@ mutation deleteMyIngredient($input: ID!) {
         message
     }
 }
+
+query getMyIngredient($input: ID!) {
+    getMyIngredient(myIngredientId: $input){
+        myIngredientId
+        quantity
+        unit
+        storageDate
+        expirationDate
+        dDay
+        storage
+    }
+}

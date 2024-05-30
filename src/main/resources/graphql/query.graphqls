@@ -1,4 +1,3 @@
-# TODO: 필수 쿼리. 후에 쿼리가 생기면 삭제
 type Query {
-    exampleQuery: String!
+    getMyIngredient(myIngredientId: ID!): MyIngredientResponseDto
 }
