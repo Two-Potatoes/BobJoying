@@ -3,3 +3,21 @@ mutation createMyIngredient($input: MyIngredientCreateRequestDto!){
         message
     }
 }
+
+mutation updateMyIngredient($input: MyIngredientUpdateRequestDto!){
+    updateMyIngredient(myIngredientUpdateRequestDto: $input){
+        myIngredientId
+        quantity
+        unit
+        storageDate
+        expirationDate
+        dDay
+        storage
+    }
+}
+
+mutation deleteMyIngredient($input: ID!) {
+    deleteMyIngredient(myIngredientId: $input){
+        message
+    }
+}

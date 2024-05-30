@@ -1,7 +1,11 @@
 package com.twoPotatoes.bobJoying.ingredient.entity;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.member.entity.Member;
 
 import jakarta.persistence.Column;
@@ -50,4 +54,28 @@ public class MyIngredient {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 100)
     private StorageEnum storage;
+
+    public void update(MyIngredientUpdateRequestDto requestDto) {
+        this.quantity = requestDto.getQuantity();
+        this.unit = requestDto.getUnit();
+        this.storageDate = requestDto.getStorageDate();
+        this.expirationDate = requestDto.getExpirationDate();
+        this.storage = requestDto.getStorage();
+    }
+
+    public MyIngredientResponseDto toDto() {
+        Integer dday = null;
+        if (expirationDate != null) {
+            dday = (int)ChronoUnit.DAYS.between(LocalDate.now(), expirationDate);
+        }
+        return MyIngredientResponseDto.builder()
+            .myIngredientId(id)
+            .dDay(dday)
+            .quantity(quantity)
+            .unit(unit)
+            .storageDate(storageDate)
+            .expirationDate(expirationDate)
+            .storage(storage)
+            .build();
+    }
 }

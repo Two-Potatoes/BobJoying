@@ -21,6 +21,8 @@ import com.twoPotatoes.bobJoying.common.config.GraphQlConfig;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.service.MyIngredientService;
 import com.twoPotatoes.bobJoying.member.entity.Member;
 import com.twoPotatoes.bobJoying.member.entity.MemberRoleEnum;
@@ -76,5 +78,48 @@ class MyIngredientControllerTest {
             .execute()
             .path("createMyIngredient.message")
             .entity(String.class);
+    }
+
+    @Test
+    @DisplayName("MyIngredientController Test - updateMyIngredient")
+    void updateMyIngredient() {
+        // given
+        Map<String, Object> updateRequestDto = new HashMap<>();
+
+        updateRequestDto.put("myIngredientId", 1);
+        updateRequestDto.put("quantity", 2f);
+        updateRequestDto.put("unit", "개");
+        updateRequestDto.put("storageDate", "2024-05-17");
+        updateRequestDto.put("expirationDate", "2024-05-27");
+        updateRequestDto.put("storage", FRIDGE);
+
+        MyIngredientResponseDto myIngredientResponseDto = new MyIngredientResponseDto();
+        given(myIngredientService.updateMyIngredient(
+                any(UserDetailsImpl.class),
+                any(MyIngredientUpdateRequestDto.class)
+            )
+        ).willReturn(myIngredientResponseDto);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", updateRequestDto)
+            .operationName("updateMyIngredient")
+            .execute();
+    }
+
+    @Test
+    @DisplayName("MyIngredientController Test - deleteMyIngredient")
+    void deleteMyIngredient() {
+        // given
+        given(myIngredientService.deleteMyIngredient(userDetails, 1)).willReturn(apiResponseDto);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", 1)
+            .operationName("deleteMyIngredient")
+            .execute()
+            .path("deleteMyIngredient.message")
+            .entity(String.class)
+            .isEqualTo(apiResponseDto.getMessage());
     }
 }

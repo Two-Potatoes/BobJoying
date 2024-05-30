@@ -1,9 +1,11 @@
 package com.twoPotatoes.bobJoying.common.exception;
 
 import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
-import graphql.ErrorType;
+import com.twoPotatoes.bobJoying.common.constants.ErrorMsgConstants;
+
 import graphql.GraphQLError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -31,8 +33,17 @@ public class GlobalExceptionHandler {
         }
 
         return GraphQLError.newError()
-            .errorType(ErrorType.ValidationError)
+            .errorType(CustomErrorType.VALIDATION_ERROR)
             .message(errorMessage.toString())
+            .build();
+    }
+
+    // 인증, 인가에 문제가 생겼을 시 작동하는 핸들러
+    @GraphQlExceptionHandler
+    public GraphQLError handleAccessDeniedException(AccessDeniedException ex) {
+        return GraphQLError.newError()
+            .errorType(CustomErrorType.UNAUTHORIZED)
+            .message(ErrorMsgConstants.INVALID_ACCESS)
             .build();
     }
 
