@@ -64,6 +64,7 @@ public class MyIngredientServiceImpl implements MyIngredientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MyIngredientResponseDto getMyIngredient(UserDetailsImpl userDetails, int myIngredientId) {
         MyIngredient target = findMyIngredient(myIngredientId);
         checkAuthority(userDetails, target.getMember());
