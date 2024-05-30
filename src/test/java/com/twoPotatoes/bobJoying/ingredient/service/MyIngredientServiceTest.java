@@ -215,4 +215,41 @@ class MyIngredientServiceTest {
         then(myIngredientRepository).shouldHaveNoMoreInteractions();
         assertEquals(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS, apiResponseDto.getMessage());
     }
+
+    @Test
+    @DisplayName("getMyIngredient 성공")
+    void getMyIngredientSuccess() {
+        // given
+        Member member = Member.builder().id(1).build();
+        int myIngredientId = 5;
+        float myIngredientQuantity = 1.5f;
+        String myIngredientUnit = "개";
+        LocalDate myIngredientStorageDate = LocalDate.of(2024, 5, 30);
+        LocalDate myIngredientExpirationDate = LocalDate.of(2024, 6, 7);
+        StorageEnum myIngredientStorage = StorageEnum.FRIDGE;
+
+        MyIngredient myIngredient = MyIngredient.builder()
+            .id(myIngredientId)
+            .member(member)
+            .quantity(myIngredientQuantity)
+            .unit(myIngredientUnit)
+            .storageDate(myIngredientStorageDate)
+            .expirationDate(myIngredientExpirationDate)
+            .storage(myIngredientStorage)
+            .build();
+        given(myIngredientRepository.findById(anyInt())).willReturn(Optional.of(myIngredient));
+
+        // when
+        MyIngredientResponseDto responseDto = myIngredientService.getMyIngredient(userDetails, myIngredientId);
+
+        // then
+        then(myIngredientRepository).should().findById(anyInt());
+        then(myIngredientRepository).shouldHaveNoMoreInteractions();
+        assertEquals(myIngredientId, responseDto.getMyIngredientId());
+        assertEquals(myIngredientQuantity, responseDto.getQuantity());
+        assertEquals(myIngredientUnit, responseDto.getUnit());
+        assertEquals(myIngredientStorageDate, responseDto.getStorageDate());
+        assertEquals(myIngredientExpirationDate, responseDto.getExpirationDate());
+        assertEquals(myIngredientStorage, responseDto.getStorage());
+    }
 }
