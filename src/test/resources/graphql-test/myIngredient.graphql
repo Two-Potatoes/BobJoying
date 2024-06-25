@@ -33,3 +33,39 @@ query getMyIngredient($input: ID!) {
         storage
     }
 }
+
+query getMyIngredientsByCategory($input: MyIngredientPageRequestDto!){
+    getMyIngredientsByCategory(myIngredientPageRequestDto: $input){
+        myIngredientId
+        quantity
+        unit
+        storageDate
+        expirationDate
+        dDay
+        storage
+    }
+}
+
+query getMyIngredientsByStorage($input: MyIngredientPageRequestDto!){
+    getMyIngredientsByCategory(myIngredientPageRequestDto: $input){
+        myIngredientId
+        quantity
+        unit
+        storageDate
+        expirationDate
+        dDay
+        storage
+    }
+}
+
+query getMyIngredients($input: PageRequestDto!){
+    getMyIngredients(pageRequestDto: $input){
+        myIngredientId
+        quantity
+        unit
+        storageDate
+        expirationDate
+        dDay
+        storage
+    }
+}
