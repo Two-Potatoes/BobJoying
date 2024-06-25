@@ -14,5 +14,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class MyIngredientCreateRequestDto extends MyIngredientBaseDto {
     @Min(value = 1, message = MyIngredientConstants.INVALID_ID)
-    private int ingredientId;
+    private Integer ingredientId;
 }
