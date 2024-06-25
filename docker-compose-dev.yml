@@ -35,8 +35,8 @@ services:
       - ${REDIS_LOCAL_PORT}:${REDIS_DOCKER_PORT}
     volumes:
       - bobJoyingRedisVolume:/data
-      - ./docker-redis.conf:/usr/local/etc/redis/redis.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: >
+      --bind 0.0.0.0 --requirepass ${REDIS_PASSWORD}
 
 volumes:
   bobJoyingDBVolume:
