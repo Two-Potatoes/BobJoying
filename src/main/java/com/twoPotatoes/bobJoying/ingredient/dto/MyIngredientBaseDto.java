@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public abstract class MyIngredientBaseDto {
-    private float quantity;
+    private Float quantity;
     @Size(max = 10, message = MyIngredientConstants.INVALID_UNIT)
     private String unit;
     private LocalDate storageDate;
