@@ -31,14 +31,6 @@ jobs:
         with:
           redis version: "latest"
           redis password: "1234"
-
-      # Docker Redis Config 설정
-      - name: Docker Redis Config 설정
-        run: |
-          touch ./docker-redis.conf
-          echo "${{ secrets.REDIS_CONFIG }}" > ./docker-redis.conf
-        shell: bash
-
       # docker-compose.yml에서 필요한 환경변수 설정
       - name: 환경변수 설정
         run: |
