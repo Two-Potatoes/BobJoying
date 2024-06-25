@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public class MyIngredientResponseDto extends MyIngredientBaseDto {
-    private int myIngredientId;
+    private String name;
+    private Integer myIngredientId;
     private Integer dDay;
 }

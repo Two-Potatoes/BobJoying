@@ -70,6 +70,7 @@ public class MyIngredient {
         return MyIngredientResponseDto.builder()
             .myIngredientId(id)
             .dDay(dday)
+            .name(ingredient.getName())
             .quantity(quantity)
             .unit(unit)
             .storageDate(storageDate)
