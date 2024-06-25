@@ -11,4 +11,6 @@ public class ErrorMsgConstants {
     public static final String INVALID_EXPIRATION_DATE = "소비 기한은 오늘 또는 등록 날짜 이후의 날짜를 입력해야 합니다.";
     public static final String INVALID_UNIT = "단위는 10자를 초과할 수 없습니다.";
     public static final String TOO_LONG_EXPIRATION_DATE = "소비기한이 허용된 범위를 초과했습니다.";
+    public static final String INVALID_SORTBY = "잘못된 정렬기준입니다.";
+    public static final String NO_MORE_DATA = "더 이상 데이터가 존재하지 않습니다.";
 }

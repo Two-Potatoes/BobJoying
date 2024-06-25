@@ -1,8 +1,12 @@
 package com.twoPotatoes.bobJoying.ingredient.service;
 
+import java.util.List;
+
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
+import com.twoPotatoes.bobJoying.common.dto.PageRequestDto;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientPageRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 
@@ -42,4 +46,40 @@ public interface MyIngredientService {
      * @return 해당 식재료 정보
      */
     MyIngredientResponseDto getMyIngredient(UserDetailsImpl userDetails, int myIngredientId);
+
+    /**
+     * 등록한 내 모든 식재료를 페이징 조건에 맞게 조회합니다.
+     *
+     * @param userDetails 인증된 사용자 정보
+     * @param pageRequestDto 페이징에 필요한 정보
+     * @return 내 모든 식재료
+     */
+    List<MyIngredientResponseDto> getMyIngredients(
+        UserDetailsImpl userDetails,
+        PageRequestDto pageRequestDto
+    );
+
+    /**
+     * 등록한 내 모든 식재료를 카테고리에 맞게 조회합니다.
+     *
+     * @param userDetails 인증된 사용자 정보
+     * @param myIngredientPageRequestDto 카테고리, 페이징 정보
+     * @return 카테고리에 알맞는 식재료
+     */
+    List<MyIngredientResponseDto> getMyIngredientsByCategory(
+        UserDetailsImpl userDetails,
+        MyIngredientPageRequestDto myIngredientPageRequestDto
+    );
+
+    /**
+     * 등록한 내 모든 식재료를 Storage에 맞게 조회합니다.
+     *
+     * @param userDetails 인증된 사용자 정보
+     * @param myIngredientPageRequestDto Storage, 페이징 정보
+     * @return Storage에 알맞는 식재료
+     */
+    List<MyIngredientResponseDto> getMyIngredientsByStorage(
+        UserDetailsImpl userDetails,
+        MyIngredientPageRequestDto myIngredientPageRequestDto
+    );
 }
