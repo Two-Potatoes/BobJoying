@@ -28,14 +28,15 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private String category;
+    private CategoryEnum category;
 
     @Column(nullable = false)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 10)
     private StorageEnum storage;
 
     @Column(nullable = false, length = 10)
@@ -49,5 +50,4 @@ public class Ingredient {
     @OneToMany(mappedBy = "ingredient")
     @Builder.Default
     private List<MyIngredient> myIngredientList = new ArrayList<>();
-
 }

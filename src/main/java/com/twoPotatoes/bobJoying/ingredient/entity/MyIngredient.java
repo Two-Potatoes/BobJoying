@@ -1,7 +1,6 @@
 package com.twoPotatoes.bobJoying.ingredient.entity;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
@@ -71,6 +70,7 @@ public class MyIngredient {
         return MyIngredientResponseDto.builder()
             .myIngredientId(id)
             .dDay(dday)
+            .name(ingredient.getName())
             .quantity(quantity)
             .unit(unit)
             .storageDate(storageDate)

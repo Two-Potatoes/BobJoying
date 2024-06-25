@@ -1,16 +1,20 @@
 package com.twoPotatoes.bobJoying.ingredient.service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
+import com.twoPotatoes.bobJoying.common.dto.PageRequestDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientPageRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
@@ -69,6 +73,58 @@ public class MyIngredientServiceImpl implements MyIngredientService {
         MyIngredient target = findMyIngredient(myIngredientId);
         checkAuthority(userDetails, target.getMember());
         return target.toDto();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MyIngredientResponseDto> getMyIngredients(UserDetailsImpl userDetails, PageRequestDto pageDto) {
+        pageDto.setPage(pageDto.getPage() - 1);
+        List<MyIngredient> myIngredientList = myIngredientRepository.findAllByMember(
+            userDetails.getMember().getId(),
+            pageDto
+        );
+        if (myIngredientList.isEmpty()) {
+            throw new CustomException(CustomErrorCode.NO_MORE_DATA);
+        }
+        return toMyIngredientResponseDtoList(myIngredientList);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MyIngredientResponseDto> getMyIngredientsByCategory(
+        UserDetailsImpl userDetails,
+        MyIngredientPageRequestDto requestDto) {
+        requestDto.setPage(requestDto.getPage() - 1);
+        List<MyIngredient> myIngredientList = myIngredientRepository.findAllByMemberAndCategory(
+            userDetails.getMember().getId(),
+            requestDto.toPageRequestDto(),
+            requestDto.getCategoryEnum()
+        );
+        if (myIngredientList.isEmpty()) {
+            throw new CustomException(CustomErrorCode.NO_MORE_DATA);
+        }
+        return toMyIngredientResponseDtoList(myIngredientList);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MyIngredientResponseDto> getMyIngredientsByStorage(
+        UserDetailsImpl userDetails,
+        MyIngredientPageRequestDto requestDto) {
+        requestDto.setPage(requestDto.getPage() - 1);
+        List<MyIngredient> myIngredientList = myIngredientRepository.findAllByMemberAndStorage(
+            userDetails.getMember().getId(),
+            requestDto.toPageRequestDto(),
+            requestDto.getStorageEnum()
+        );
+        if (myIngredientList.isEmpty()) {
+            throw new CustomException(CustomErrorCode.NO_MORE_DATA);
+        }
+        return toMyIngredientResponseDtoList(myIngredientList);
+    }
+
+    private List<MyIngredientResponseDto> toMyIngredientResponseDtoList(List<MyIngredient> myIngredientList) {
+        return myIngredientList.stream().map(MyIngredient::toDto).collect(Collectors.toList());
     }
 
     private static void checkAuthority(UserDetailsImpl userDetails, Member member) {

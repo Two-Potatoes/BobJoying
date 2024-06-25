@@ -1,3 +1,7 @@
 type Query {
+    # MyIngredient
     getMyIngredient(myIngredientId: ID!): MyIngredientResponseDto
+    getMyIngredientsByCategory(myIngredientPageRequestDto: MyIngredientPageRequestDto!): [MyIngredientResponseDto]
+    getMyIngredientsByStorage(myIngredientPageRequestDto: MyIngredientPageRequestDto!): [MyIngredientResponseDto]
+    getMyIngredients(pageRequestDto: PageRequestDto!): [MyIngredientResponseDto]
 }

@@ -5,6 +5,8 @@ import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +19,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.twoPotatoes.bobJoying.common.constants.MyIngredientConstants;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
+import com.twoPotatoes.bobJoying.common.dto.PageRequestDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientPageRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.entity.CategoryEnum;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.MyIngredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
@@ -45,7 +50,7 @@ class MyIngredientServiceTest {
     void setUp() {
         createRequestDto = MyIngredientCreateRequestDto.builder()
             .ingredientId(1)
-            .quantity(1)
+            .quantity(1f)
             .unit("개")
             .storageDate(LocalDate.of(2024, 5, 7))
             .expirationDate(LocalDate.of(2024, 5, 27))
@@ -53,7 +58,7 @@ class MyIngredientServiceTest {
             .build();
         updateRequestDto = MyIngredientUpdateRequestDto.builder()
             .myIngredientId(1)
-            .quantity(1)
+            .quantity(1f)
             .unit("조각")
             .storageDate(LocalDate.of(2024, 5, 8))
             .expirationDate(LocalDate.of(2024, 5, 28))
@@ -183,7 +188,7 @@ class MyIngredientServiceTest {
     void updateMyIngredientSuccess() {
         // given
         Member member = Member.builder().id(1).build();
-        MyIngredient myIngredient = MyIngredient.builder().id(1).member(member).build();
+        MyIngredient myIngredient = MyIngredient.builder().id(1).member(member).ingredient(new Ingredient()).build();
         given(myIngredientRepository.findById(anyInt())).willReturn(Optional.of(myIngredient));
 
         // when
@@ -230,6 +235,7 @@ class MyIngredientServiceTest {
 
         MyIngredient myIngredient = MyIngredient.builder()
             .id(myIngredientId)
+            .ingredient(new Ingredient())
             .member(member)
             .quantity(myIngredientQuantity)
             .unit(myIngredientUnit)
@@ -251,5 +257,90 @@ class MyIngredientServiceTest {
         assertEquals(myIngredientStorageDate, responseDto.getStorageDate());
         assertEquals(myIngredientExpirationDate, responseDto.getExpirationDate());
         assertEquals(myIngredientStorage, responseDto.getStorage());
+    }
+
+    @Test
+    @DisplayName("getMyIngredientsByCategory 성공")
+    void getMyIngredientsByCategorySuccess() {
+        // given
+        MyIngredientPageRequestDto myIngredientPageRequestDto =
+            MyIngredientPageRequestDto.builder()
+                .page(1)
+                .size(20)
+                .sortBy("name")
+                .isAsc(true)
+                .categoryEnum(CategoryEnum.BREAD).build();
+
+        List<MyIngredient> myIngredientList = new ArrayList<>();
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        given(myIngredientRepository.findAllByMemberAndCategory(
+            anyInt(), any(PageRequestDto.class), any(CategoryEnum.class)
+        )).willReturn(myIngredientList);
+
+        // when
+        List<MyIngredientResponseDto> list =
+            myIngredientService.getMyIngredientsByCategory(userDetails, myIngredientPageRequestDto);
+
+        // then
+        assertEquals(2, list.size());
+    }
+
+    @Test
+    @DisplayName("getMyIngredientsByStorage 성공")
+    void getMyIngredientsByStorageSuccess() {
+        // given
+        MyIngredientPageRequestDto myIngredientPageRequestDto =
+            MyIngredientPageRequestDto.builder()
+                .page(1)
+                .size(20)
+                .sortBy("name")
+                .isAsc(true)
+                .storageEnum(StorageEnum.ROOM_TEMPERATURE).build();
+
+        List<MyIngredient> myIngredientList = new ArrayList<>();
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+
+        given(myIngredientRepository.findAllByMemberAndStorage(
+            anyInt(), any(PageRequestDto.class), any(StorageEnum.class)
+        )).willReturn(myIngredientList);
+
+        // when
+        List<MyIngredientResponseDto> list =
+            myIngredientService.getMyIngredientsByStorage(userDetails, myIngredientPageRequestDto);
+
+        // then
+        assertEquals(3, list.size());
+    }
+
+    @Test
+    @DisplayName("getMyIngredients 성공")
+    void getMyIngredientsSuccess() {
+        // given
+        PageRequestDto pageRequestDto =
+            PageRequestDto.builder()
+                .page(1)
+                .size(20)
+                .sortBy("name")
+                .isAsc(true).build();
+
+        List<MyIngredient> myIngredientList = new ArrayList<>();
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+        myIngredientList.add(MyIngredient.builder().ingredient(new Ingredient()).build());
+
+        given(myIngredientRepository.findAllByMember(
+            anyInt(), any(PageRequestDto.class)
+        )).willReturn(myIngredientList);
+
+        // when
+        List<MyIngredientResponseDto> list =
+            myIngredientService.getMyIngredients(userDetails, pageRequestDto);
+
+        // then
+        assertEquals(4, list.size());
     }
 }

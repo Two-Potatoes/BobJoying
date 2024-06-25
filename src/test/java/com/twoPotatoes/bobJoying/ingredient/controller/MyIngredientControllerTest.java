@@ -3,7 +3,9 @@ package com.twoPotatoes.bobJoying.ingredient.controller;
 import static com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +21,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.twoPotatoes.bobJoying.common.config.GraphQlConfig;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
+import com.twoPotatoes.bobJoying.common.dto.PageRequestDto;
 import com.twoPotatoes.bobJoying.common.security.UserDetailsImpl;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientPageRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.service.MyIngredientService;
@@ -134,6 +138,57 @@ class MyIngredientControllerTest {
         graphQlTester.documentName("myIngredient")
             .variable("input", 1)
             .operationName("getMyIngredient")
+            .execute();
+    }
+
+    @Test
+    @DisplayName("MyIngredientController Test - getMyIngredientsByCategory")
+    void getMyIngredientsByCategory() {
+        // given
+        MyIngredientPageRequestDto myIngredientPageRequestDto = new MyIngredientPageRequestDto();
+        List<MyIngredientResponseDto> myIngredientResponseDtoList = new ArrayList<>();
+
+        given(myIngredientService.getMyIngredientsByCategory(userDetails, myIngredientPageRequestDto))
+            .willReturn(myIngredientResponseDtoList);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", myIngredientPageRequestDto)
+            .operationName("getMyIngredientsByCategory")
+            .execute();
+    }
+
+    @Test
+    @DisplayName("MyIngredientController Test - getMyIngredientsByStorage")
+    void getMyIngredientsByStorage() {
+        // given
+        MyIngredientPageRequestDto myIngredientPageRequestDto = new MyIngredientPageRequestDto();
+        List<MyIngredientResponseDto> myIngredientResponseDtoList = new ArrayList<>();
+
+        given(myIngredientService.getMyIngredientsByStorage(userDetails, myIngredientPageRequestDto))
+            .willReturn(myIngredientResponseDtoList);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", myIngredientPageRequestDto)
+            .operationName("getMyIngredientsByStorage")
+            .execute();
+    }
+
+    @Test
+    @DisplayName("MyIngredientController Test - getMyIngredients")
+    void getMyIngredients() {
+        // given
+        PageRequestDto pageRequestDto = new PageRequestDto();
+        List<MyIngredientResponseDto> myIngredientResponseDtoList = new ArrayList<>();
+
+        given(myIngredientService.getMyIngredients(userDetails, pageRequestDto))
+            .willReturn(myIngredientResponseDtoList);
+
+        // when
+        graphQlTester.documentName("myIngredient")
+            .variable("input", pageRequestDto)
+            .operationName("getMyIngredients")
             .execute();
     }
 }

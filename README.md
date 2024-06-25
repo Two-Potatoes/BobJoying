@@ -8,7 +8,7 @@
 
 🙋‍♀️ 우리 서비스는요...
 
-1. 냉장고의 **식재료를 관리**해줘요! - 개발 중⏩
+1. 냉장고의 **식재료를 관리**해줘요! - 개발 완!✅
 2. 냉장고의 식재료로 할 수 있는 **레시피를 등록하고 관리**할 수 있어요! - 개발 중⏩
 3. 냉장고를 공유하는 그룹원에게 먹고 싶은 **레시피를 요청**할 수 있어요! - 개발 중⏩
 4. **식사 기록**이 가능하고 그룹원들의 오늘 식사 기록을 **피드**에서 확인할 수 있어요! - 개발 중⏩
@@ -191,18 +191,26 @@ JWT_SECRET_KEY: { BASE64로 encoding된 key }
 <summary>.env</summary>
   
 ```text
-POSTGRES_DB={Docker_DB_name}
-POSTGRES_USER={Docker_DB_username}
-POSTGRES_PASSWORD={Docker_DB_password}
+POSTGRES_DB={ Docker_DB_Name }
+POSTGRES_URL={ Docker_DB_URL }
+POSTGRES_USER={ Docker_DB_Username }
+POSTGRES_PASSWORD={ Docker_DB_password }
 
-POSTGRES_LOCAL_PORT=5433
+POSTGRES_LOCAL_PORT={ Docker_Postgres_Local_Port }
 POSTGRES_DOCKER_PORT=5432
 
-SPRING_LOCAL_PORT=8080
+SPRING_LOCAL_PORT={ Spring_Local_Port }
 SPRING_DOCKER_PORT=8080
 
-REDIS_LOCAL_PORT=6378
+SPRING_GRAPHQL_SCHEMA_LOCATIONS={ Spring_GraphQL_Schema_Locations }
+
+REDIS_LOCAL_PORT={ Redis_Local_Port }
 REDIS_DOCKER_PORT=6379
+
+REDIS_HOST=host.docker.internal
+REDIS_PASSWORD={ Redis_Password }
+
+JWT_SECRET_KEY={ Base64_Encoded_Secret_Key }
 ```
 
 </details>
@@ -233,21 +241,9 @@ spring.data.redis.host=localhost
 
 </details>
 
-##### 4️⃣ 프로젝트 가장 상위 폴더에 `docker-redis.conf` 파일을 생성합니다. (Docker Redis 환경 설정)
+##### 4️⃣ 로컬에서 project를 build해서 `jar`파일을 생성합니다.
 
-<details>
-<summary>docker-redis.conf</summary>
-
-```text
-bind 0.0.0.0
-requirepass {Docker_Redis_Password}
-```
-
-</details>
-
-##### 5️⃣ 로컬에서 project를 build해서 `jar`파일을 생성합니다.
-
-##### 6️⃣ 터미널에서 docker compose 실행 명령어를 입력하여 프로젝트를 build합니다.
+##### 5️⃣ 터미널에서 docker compose 실행 명령어를 입력하여 프로젝트를 build합니다.
 
 ```shell
 docker-compose -f docker-compose-dev.yml up -d

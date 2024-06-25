@@ -4,6 +4,24 @@ enum StorageEnum {
     ROOM_TEMPERATURE
 }
 
+enum CategoryEnum {
+    FRUIT
+    VEGETABLE
+    MEAT
+    MARINE_PRODUCT
+    DAIRY_PRODUCT
+    PLATE
+    DRINK
+    ALCOHOL
+    SEASONING
+    SPICE
+    BREAD
+    DESSERT
+    NUT
+    GRAIN
+    ETC
+}
+
 input MyIngredientCreateRequestDto {
     quantity: Float!
     unit: String!
@@ -24,10 +42,27 @@ input MyIngredientUpdateRequestDto {
 
 type MyIngredientResponseDto {
     myIngredientId: ID!
+    name: String!
     quantity: Float!
     unit: String!
     storageDate: Date
     expirationDate: Date
     dDay: Int
     storage: StorageEnum!
+}
+
+input MyIngredientPageRequestDto {
+    categoryEnum: CategoryEnum
+    storageEnum: StorageEnum
+    page: Int
+    size: Int
+    sortBy: String
+    isAsc: Boolean
+}
+
+input PageRequestDto {
+    page: Int
+    size: Int
+    sortBy: String
+    isAsc: Boolean
 }
