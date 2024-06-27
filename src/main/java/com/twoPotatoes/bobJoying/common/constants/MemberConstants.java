@@ -15,5 +15,4 @@ public class MemberConstants {
     public static final String PASSWORD_REGULAR_EXPRESSION = "^(?=.*[a-z])(?=.*\\d)(?=.*[!?@#$%^&*_=+-]).+$";
     public static final String INVALID_PASSWORD = "비밀번호는 영소문자, 숫자, 특수문자(!,?,@,#,$,%,^,&,*,_,=,+,-)가 한 개 이상 포함되어야 합니다.";
     public static final String NICKNAME_NOT_BLANK = "닉네임 칸은 비울 수 없습니다.";
-    public static final String BLANK_NOT_ALLOWED = "빈 값이 들어올 수 없습니다.";
 }
