@@ -13,4 +13,5 @@ public class ErrorMsgConstants {
     public static final String TOO_LONG_EXPIRATION_DATE = "소비기한이 허용된 범위를 초과했습니다.";
     public static final String INVALID_SORTBY = "잘못된 정렬기준입니다.";
     public static final String NO_MORE_DATA = "더 이상 데이터가 존재하지 않습니다.";
+    public static final String INGREDIENT_ALREADY_EXISTS = "이미 존재하는 식재료입니다.";
 }

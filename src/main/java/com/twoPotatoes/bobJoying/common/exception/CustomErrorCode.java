@@ -17,7 +17,8 @@ public enum CustomErrorCode {
     MY_INGREDIENT_NOT_FOUND(CustomErrorType.NOT_FOUND, ErrorMsgConstants.INGREDIENT_NOT_FOUND),
     TOO_LONG_EXPIRATION_DATE(CustomErrorType.BAD_REQUEST, ErrorMsgConstants.TOO_LONG_EXPIRATION_DATE),
     INVALID_SORTBY(CustomErrorType.BAD_REQUEST, ErrorMsgConstants.INVALID_SORTBY),
-    NO_MORE_DATA(CustomErrorType.NOT_FOUND, ErrorMsgConstants.NO_MORE_DATA);
+    NO_MORE_DATA(CustomErrorType.NOT_FOUND, ErrorMsgConstants.NO_MORE_DATA),
+    INGREDIENT_ALREADY_EXISTS(CustomErrorType.BAD_REQUEST, ErrorMsgConstants.INGREDIENT_ALREADY_EXISTS);
 
     private final CustomErrorType errorType;
     private final String message;
