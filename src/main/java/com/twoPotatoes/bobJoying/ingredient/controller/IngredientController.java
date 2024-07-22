@@ -23,9 +23,5 @@ public class IngredientController {
         @Argument @Valid IngredientCreateRequestDto ingredientCreateRequestDto) {
         return ingredientService.createIngredient(ingredientCreateRequestDto);
     }
-    // todo : service 구현
-    // todo : hasrole test
-    // todo : graphql schema
-    // todo : service test code
-    // todo : controller test code
+
 }
