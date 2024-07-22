@@ -1,0 +1,5 @@
+mutation createIngredient($input: IngredientCreateRequestDto!){
+    createIngredient(ingredientCreateRequestDto: $input){
+        message
+    }
+}

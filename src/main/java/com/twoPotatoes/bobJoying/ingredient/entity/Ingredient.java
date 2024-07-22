@@ -29,14 +29,14 @@ public class Ingredient {
     private Integer id;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private CategoryEnum category;
 
     @Column(nullable = false)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private StorageEnum storage;
 
     @Column(nullable = false, length = 10)

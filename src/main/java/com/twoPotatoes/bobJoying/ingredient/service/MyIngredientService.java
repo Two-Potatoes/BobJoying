@@ -12,47 +12,47 @@ import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 
 public interface MyIngredientService {
     /**
-     * 필요한 정보를 받아 정보에 맞는 식재료를 등록합니다.
+     * 필요한 정보를 받아 정보에 맞는 나의 식재료를 등록합니다.
      *
      * @param userDetails   인증된 사용자 정보
-     * @param requestDto    식재료 등록에 필요한 정보
-     * @return 식재료 등록 성공 메시지
+     * @param requestDto    나의 식재료 등록에 필요한 정보
+     * @return 나의 식재료 등록 성공 메시지
      */
     ApiResponseDto createMyIngredient(UserDetailsImpl userDetails, MyIngredientCreateRequestDto requestDto);
 
     /**
-     * 필요한 정보를 받아 정보에 맞게 식재료를 수정합니다.
+     * 필요한 정보를 받아 정보에 맞게 나의 식재료를 수정합니다.
      *
      * @param userDetails 인증된 사용자 정보
-     * @param requestDto 식재료 수정에 필요한 정보
-     * @return 수정된 식재료 정보
+     * @param requestDto 나의 식재료 수정에 필요한 정보
+     * @return 수정된 나의 식재료 정보
      */
     MyIngredientResponseDto updateMyIngredient(UserDetailsImpl userDetails, MyIngredientUpdateRequestDto requestDto);
 
     /**
-     * ID에 맞는 식재료를 삭제합니다.
+     * ID에 맞는 나의 식재료를 삭제합니다.
      *
      * @param userDetails 인증된 사용자 정보
-     * @param myIngredientId 식재료 ID
-     * @return 식재료 삭제 성공 메시지
+     * @param myIngredientId 나의 식재료 ID
+     * @return 나의 식재료 삭제 성공 메시지
      */
     ApiResponseDto deleteMyIngredient(UserDetailsImpl userDetails, int myIngredientId);
 
     /**
-     * ID에 맞는 식재료를 조회합니다.
+     * ID에 맞는 나의 식재료를 조회합니다.
      *
      * @param userDetails 인증된 사용자 정보
-     * @param myIngredientId 식재료 ID
-     * @return 해당 식재료 정보
+     * @param myIngredientId 나의 식재료 ID
+     * @return 해당 나의 식재료 정보
      */
     MyIngredientResponseDto getMyIngredient(UserDetailsImpl userDetails, int myIngredientId);
 
     /**
-     * 등록한 내 모든 식재료를 페이징 조건에 맞게 조회합니다.
+     * 등록한 나의 모든 식재료를 페이징 조건에 맞게 조회합니다.
      *
      * @param userDetails 인증된 사용자 정보
      * @param pageRequestDto 페이징에 필요한 정보
-     * @return 내 모든 식재료
+     * @return 나의 모든 식재료
      */
     List<MyIngredientResponseDto> getMyIngredients(
         UserDetailsImpl userDetails,
@@ -60,7 +60,7 @@ public interface MyIngredientService {
     );
 
     /**
-     * 등록한 내 모든 식재료를 카테고리에 맞게 조회합니다.
+     * 등록한 나의 모든 식재료를 카테고리에 맞게 조회합니다.
      *
      * @param userDetails 인증된 사용자 정보
      * @param myIngredientPageRequestDto 카테고리, 페이징 정보
@@ -72,7 +72,7 @@ public interface MyIngredientService {
     );
 
     /**
-     * 등록한 내 모든 식재료를 Storage에 맞게 조회합니다.
+     * 등록한 나의 모든 식재료를 Storage에 맞게 조회합니다.
      *
      * @param userDetails 인증된 사용자 정보
      * @param myIngredientPageRequestDto Storage, 페이징 정보

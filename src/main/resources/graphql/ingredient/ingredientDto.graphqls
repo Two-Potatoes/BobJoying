@@ -22,6 +22,8 @@ enum CategoryEnum {
     ETC
 }
 
+# MyIngredient
+
 input MyIngredientCreateRequestDto {
     quantity: Float!
     unit: String!
@@ -60,9 +62,11 @@ input MyIngredientPageRequestDto {
     isAsc: Boolean
 }
 
-input PageRequestDto {
-    page: Int
-    size: Int
-    sortBy: String
-    isAsc: Boolean
+# Ingredient
+
+input IngredientCreateRequestDto {
+    category: CategoryEnum!
+    name: String!
+    storage: StorageEnum!
+    unit: String!
 }

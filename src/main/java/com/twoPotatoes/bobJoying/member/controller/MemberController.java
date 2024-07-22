@@ -22,8 +22,4 @@ public class MemberController {
         memberService.signup(signupRequestDto);
         return new ApiResponseDto(MemberConstants.SIGNUP_SUCCESS);
     }
-
-    // TODO: Method마다 인가 거는 방법
-    // @PreAuthorize("isAuthenticated()")
-    // @Secured("ROLE_ADMIN")
 }
