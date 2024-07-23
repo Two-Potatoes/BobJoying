@@ -30,7 +30,6 @@ import com.twoPotatoes.bobJoying.ingredient.entity.CategoryEnum;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.MyIngredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
-import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 import com.twoPotatoes.bobJoying.ingredient.repository.MyIngredientRepository;
 import com.twoPotatoes.bobJoying.member.entity.Member;
 
@@ -39,7 +38,7 @@ class MyIngredientServiceTest {
     @Mock
     MyIngredientRepository myIngredientRepository;
     @Mock
-    IngredientRepository ingredientRepository;
+    IngredientServiceImpl ingredientService;
     @InjectMocks
     MyIngredientServiceImpl myIngredientService;
     MyIngredientCreateRequestDto createRequestDto;
@@ -128,24 +127,11 @@ class MyIngredientServiceTest {
     }
 
     @Test
-    @DisplayName("createMyIngredient - 요청정보의 재료 ID에 맞는 Ingredient가 존재하지 않을 경우")
-    void createMyIngredientFailByIngredientNotFound() {
-        // given
-        given(ingredientRepository.findById(anyInt())).willReturn(Optional.empty());
-
-        // when
-        assertThrows(
-            CustomException.class,
-            () -> myIngredientService.createMyIngredient(userDetails, createRequestDto)
-        );
-    }
-
-    @Test
     @DisplayName("createMyIngredient 성공")
     void createMyIngredientSuccess() {
         // given
         Ingredient ingredient = new Ingredient();
-        given(ingredientRepository.findById(anyInt())).willReturn(Optional.of(ingredient));
+        given(ingredientService.findIngredient(anyInt())).willReturn(ingredient);
 
         // when
         myIngredientService.createMyIngredient(userDetails, createRequestDto);
