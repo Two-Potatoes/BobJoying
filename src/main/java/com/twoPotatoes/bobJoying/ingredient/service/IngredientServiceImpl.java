@@ -8,6 +8,7 @@ import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 
@@ -25,6 +26,17 @@ public class IngredientServiceImpl implements IngredientService {
         Ingredient ingredient = requestDto.toEntity();
         ingredientRepository.save(ingredient);
         return new ApiResponseDto(MyIngredientConstants.CREATE_MY_INGREDIENT_SUCCESS);
+    }
+
+    @Override
+    public IngredientResponseDto getIngredient(int ingredientId) {
+        return findIngredient(ingredientId).toIngredientResponseDto();
+    }
+
+    public Ingredient findIngredient(int id) {
+        return ingredientRepository.findById(id).orElseThrow(
+            () -> new CustomException(CustomErrorCode.INGREDIENT_NOT_FOUND)
+        );
     }
 
     private void checkIngredientExists(String name) {

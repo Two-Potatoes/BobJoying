@@ -3,6 +3,7 @@ package com.twoPotatoes.bobJoying.ingredient.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 import com.twoPotatoes.bobJoying.recipe.entity.RecipeIngredient;
 
 import jakarta.persistence.Column;
@@ -50,4 +51,14 @@ public class Ingredient {
     @OneToMany(mappedBy = "ingredient")
     @Builder.Default
     private List<MyIngredient> myIngredientList = new ArrayList<>();
+
+    public IngredientResponseDto toIngredientResponseDto() {
+        return IngredientResponseDto.builder()
+            .id(id)
+            .category(category)
+            .name(name)
+            .storage(storage)
+            .unit(unit)
+            .build();
+    }
 }

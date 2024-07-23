@@ -2,6 +2,7 @@ package com.twoPotatoes.bobJoying.ingredient.service;
 
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 
 public interface IngredientService {
     /**
@@ -11,4 +12,12 @@ public interface IngredientService {
      * @return 식재료 등록 성공 메시지
      */
     ApiResponseDto createIngredient(IngredientCreateRequestDto requestDto);
+
+    /**
+     * ID에 맞는 식재료를 조회합니다.
+     *
+     * @param ingredientId 식재료 ID
+     * @return 식재료 정보
+     */
+    IngredientResponseDto getIngredient(int ingredientId);
 }
