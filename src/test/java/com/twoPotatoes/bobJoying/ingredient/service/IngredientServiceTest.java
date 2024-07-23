@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.CategoryEnum;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
@@ -63,5 +64,37 @@ class IngredientServiceTest {
         // then
         then(ingredientRepository).should().save(any(Ingredient.class));
         then(ingredientRepository).shouldHaveNoMoreInteractions();
+    }
+
+    @Test
+    @DisplayName("getIngredient 실패 - id에 해당하는 식재료가 존재하지 않을 경우")
+    void getIngredientFailByIngredientNotFound() {
+        // given
+        given(ingredientRepository.findById(anyInt())).willReturn(Optional.empty());
+
+        // when
+        assertThrows(
+            CustomException.class,
+            () -> ingredientService.getIngredient(2)
+        );
+    }
+
+    @Test
+    @DisplayName("getIngredient 성공")
+    void getIngredient() {
+        // given
+        Ingredient ingredient = Ingredient.builder()
+            .id(2)
+            .name("사과")
+            .category(CategoryEnum.FRUIT)
+            .unit("개")
+            .storage(StorageEnum.FRIDGE).build();
+        given(ingredientRepository.findById(anyInt())).willReturn(Optional.of(ingredient));
+
+        // when
+        IngredientResponseDto responseDto = ingredientService.getIngredient(2);
+
+        // then
+        assertEquals("사과", responseDto.getName());
     }
 }

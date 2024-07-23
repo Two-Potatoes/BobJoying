@@ -3,3 +3,13 @@ mutation createIngredient($input: IngredientCreateRequestDto!){
         message
     }
 }
+
+query getIngredient($input: ID!) {
+    getIngredient(ingredientId: $input){
+        id
+        category
+        name
+        storage
+        unit
+    }
+}
