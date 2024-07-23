@@ -70,3 +70,11 @@ input IngredientCreateRequestDto {
     storage: StorageEnum!
     unit: String!
 }
+
+type IngredientResponseDto {
+    id: Int!
+    category: CategoryEnum!
+    name: String!
+    storage: StorageEnum!
+    unit: String!
+}

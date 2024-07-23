@@ -19,6 +19,7 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 import com.twoPotatoes.bobJoying.common.config.GraphQlConfig;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.service.IngredientService;
 
 @GraphQlTest(IngredientController.class)
@@ -36,7 +37,7 @@ class IngredientControllerTest {
     }
 
     @Test
-    @DisplayName("IngredientController Test - createIngredient")
+    @DisplayName("createIngredient")
     void createIngredient() {
         // given
         Map<String, Object> requestDto = new HashMap<>();
@@ -55,5 +56,18 @@ class IngredientControllerTest {
             .execute()
             .path("createIngredient.message")
             .entity(String.class);
+    }
+
+    @Test
+    @DisplayName("getIngredient")
+    void getIngredient() {
+        IngredientResponseDto responseDto = IngredientResponseDto.builder().build();
+        given(ingredientService.getIngredient(anyInt())).willReturn(responseDto);
+
+        // when
+        graphQlTester.documentName("ingredient")
+            .variable("input", 2)
+            .operationName("getIngredient")
+            .execute();
     }
 }

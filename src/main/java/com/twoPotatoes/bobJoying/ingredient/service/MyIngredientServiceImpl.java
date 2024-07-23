@@ -19,7 +19,6 @@ import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.MyIngredient;
-import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 import com.twoPotatoes.bobJoying.ingredient.repository.MyIngredientRepository;
 import com.twoPotatoes.bobJoying.member.entity.Member;
 
@@ -30,12 +29,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MyIngredientServiceImpl implements MyIngredientService {
     private final MyIngredientRepository myIngredientRepository;
-    private final IngredientRepository ingredientRepository;
+    private final IngredientServiceImpl ingredientService;
 
     @Override
     public ApiResponseDto createMyIngredient(UserDetailsImpl userDetails, MyIngredientCreateRequestDto requestDto) {
         validateRequest(requestDto.getQuantity(), requestDto.getExpirationDate(), requestDto.getStorageDate());
-        Ingredient ingredient = findIngredient(requestDto.getIngredientId());
+        Ingredient ingredient = ingredientService.findIngredient(requestDto.getIngredientId());
         MyIngredient myIngredient = MyIngredient.builder()
             .member(userDetails.getMember())
             .ingredient(ingredient)
@@ -155,12 +154,6 @@ public class MyIngredientServiceImpl implements MyIngredientService {
                 throw new CustomException(CustomErrorCode.TOO_LONG_EXPIRATION_DATE);
             }
         }
-    }
-
-    private Ingredient findIngredient(int id) {
-        return ingredientRepository.findById(id).orElseThrow(
-            () -> new CustomException(CustomErrorCode.INGREDIENT_NOT_FOUND)
-        );
     }
 
     private MyIngredient findMyIngredient(int id) {

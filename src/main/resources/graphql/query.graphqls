@@ -4,4 +4,7 @@ type Query {
     getMyIngredientsByCategory(myIngredientPageRequestDto: MyIngredientPageRequestDto!): [MyIngredientResponseDto]
     getMyIngredientsByStorage(myIngredientPageRequestDto: MyIngredientPageRequestDto!): [MyIngredientResponseDto]
     getMyIngredients(pageRequestDto: PageRequestDto!): [MyIngredientResponseDto]
+
+    # Ingredient
+    getIngredient(ingredientId: ID!): IngredientResponseDto
 }
