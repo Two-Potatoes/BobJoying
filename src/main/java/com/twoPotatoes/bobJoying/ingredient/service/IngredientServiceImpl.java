@@ -9,6 +9,7 @@ import com.twoPotatoes.bobJoying.common.exception.CustomErrorCode;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 
@@ -29,8 +30,16 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public IngredientResponseDto getIngredient(int ingredientId) {
         return findIngredient(ingredientId).toIngredientResponseDto();
+    }
+
+    @Override
+    public IngredientResponseDto updateIngredient(IngredientUpdateRequestDto requestDto) {
+        Ingredient ingredient = findIngredient(requestDto.getId());
+        ingredient.update(requestDto);
+        return ingredient.toIngredientResponseDto();
     }
 
     public Ingredient findIngredient(int id) {
