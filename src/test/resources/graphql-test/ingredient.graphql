@@ -23,3 +23,9 @@ mutation updateIngredient($input: IngredientUpdateRequestDto!) {
         unit
     }
 }
+
+mutation deleteIngredient($input: ID!) {
+    deleteIngredient(ingredientId: $input) {
+        message
+    }
+}

@@ -111,4 +111,19 @@ class IngredientControllerTest {
             .entity(String.class)
             .isEqualTo(updateName);
     }
+
+    @Test
+    @DisplayName("deleteIngredient")
+    void deleteIngredient() {
+        // given
+        given(ingredientService.deleteIngredient(anyInt())).willReturn(apiResponseDto);
+
+        // when
+        graphQlTester.documentName("ingredient")
+            .variable("input",3)
+            .operationName("deleteIngredient")
+            .execute()
+            .path("deleteIngredient.message")
+            .entity(String.class);
+    }
 }
