@@ -40,4 +40,10 @@ public class IngredientController {
         @Argument @Valid IngredientUpdateRequestDto ingredientUpdateRequestDto) {
         return ingredientService.updateIngredient(ingredientUpdateRequestDto);
     }
+
+    @MutationMapping
+    @Secured("ROLE_ADMIN")
+    public ApiResponseDto deleteIngredient(@Argument int ingredientId) {
+        return ingredientService.deleteIngredient(ingredientId);
+    }
 }

@@ -42,6 +42,13 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredient.toIngredientResponseDto();
     }
 
+    @Override
+    public ApiResponseDto deleteIngredient(int ingredientId) {
+        findIngredient(ingredientId);
+        ingredientRepository.deleteById(ingredientId);
+        return new ApiResponseDto(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS);
+    }
+
     public Ingredient findIngredient(int id) {
         return ingredientRepository.findById(id).orElseThrow(
             () -> new CustomException(CustomErrorCode.INGREDIENT_NOT_FOUND)

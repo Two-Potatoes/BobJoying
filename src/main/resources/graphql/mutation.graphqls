@@ -15,4 +15,5 @@ type Mutation {
     #IngredientController
     createIngredient(ingredientCreateRequestDto: IngredientCreateRequestDto!): ApiResponseDto
     updateIngredient(ingredientUpdateRequestDto: IngredientUpdateRequestDto!): IngredientResponseDto
+    deleteIngredient(ingredientId: ID!): ApiResponseDto
 }
