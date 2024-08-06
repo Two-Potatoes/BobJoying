@@ -13,3 +13,13 @@ query getIngredient($input: ID!) {
         unit
     }
 }
+
+mutation updateIngredient($input: IngredientUpdateRequestDto!) {
+    updateIngredient(ingredientUpdateRequestDto: $input) {
+        id
+        category
+        name
+        storage
+        unit
+    }
+}

@@ -20,6 +20,9 @@ import com.twoPotatoes.bobJoying.common.config.GraphQlConfig;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.entity.CategoryEnum;
+import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
 import com.twoPotatoes.bobJoying.ingredient.service.IngredientService;
 
 @GraphQlTest(IngredientController.class)
@@ -69,5 +72,43 @@ class IngredientControllerTest {
             .variable("input", 2)
             .operationName("getIngredient")
             .execute();
+    }
+
+    @Test
+    @DisplayName("updateIngredient")
+    void updateIngredient() {
+        // given
+        int updateId = 3;
+        CategoryEnum updateCategory = MEAT;
+        String updateName = "돼지고기";
+        StorageEnum updateStorage = FREEZER;
+        String updateUnit = "g";
+
+        Map<String, Object> requestDto = new HashMap<>();
+        requestDto.put("id", updateId);
+        requestDto.put("category", updateCategory);
+        requestDto.put("name", updateName);
+        requestDto.put("storage", updateStorage);
+        requestDto.put("unit", updateUnit);
+
+        IngredientResponseDto responseDto = IngredientResponseDto.builder()
+            .id(updateId)
+            .category(updateCategory)
+            .name(updateName)
+            .storage(updateStorage)
+            .unit(updateUnit)
+            .build();
+
+        given(ingredientService.updateIngredient(any(IngredientUpdateRequestDto.class)))
+            .willReturn(responseDto);
+
+        // when
+        graphQlTester.documentName("ingredient")
+            .variable("input", requestDto)
+            .operationName("updateIngredient")
+            .execute()
+            .path("updateIngredient.name")
+            .entity(String.class)
+            .isEqualTo(updateName);
     }
 }
