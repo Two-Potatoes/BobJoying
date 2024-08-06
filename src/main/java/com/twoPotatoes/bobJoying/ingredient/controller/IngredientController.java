@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.service.IngredientService;
 
 import jakarta.validation.Valid;
@@ -31,5 +32,18 @@ public class IngredientController {
     @PreAuthorize("isAuthenticated()")
     public IngredientResponseDto getIngredient(@Argument int ingredientId) {
         return ingredientService.getIngredient(ingredientId);
+    }
+
+    @MutationMapping
+    @Secured("ROLE_ADMIN")
+    public IngredientResponseDto updateIngredient(
+        @Argument @Valid IngredientUpdateRequestDto ingredientUpdateRequestDto) {
+        return ingredientService.updateIngredient(ingredientUpdateRequestDto);
+    }
+
+    @MutationMapping
+    @Secured("ROLE_ADMIN")
+    public ApiResponseDto deleteIngredient(@Argument int ingredientId) {
+        return ingredientService.deleteIngredient(ingredientId);
     }
 }

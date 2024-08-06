@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.recipe.entity.RecipeIngredient;
 
 import jakarta.persistence.Column;
@@ -60,5 +61,12 @@ public class Ingredient {
             .storage(storage)
             .unit(unit)
             .build();
+    }
+
+    public void update(IngredientUpdateRequestDto requestDto) {
+        this.category = requestDto.getCategory();
+        this.name = requestDto.getName();
+        this.storage = requestDto.getStorage();
+        this.unit = requestDto.getUnit();
     }
 }

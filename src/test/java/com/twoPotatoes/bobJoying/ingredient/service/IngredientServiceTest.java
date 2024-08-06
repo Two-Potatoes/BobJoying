@@ -13,9 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.CategoryEnum;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.entity.StorageEnum;
@@ -96,5 +98,49 @@ class IngredientServiceTest {
 
         // then
         assertEquals("사과", responseDto.getName());
+    }
+
+    @Test
+    @DisplayName("updateIngredient 성공")
+    void updateIngredient() {
+        // given
+        String updateName = "사과";
+        CategoryEnum updateCategory = CategoryEnum.FRUIT;
+        StorageEnum updateStorage = StorageEnum.FRIDGE;
+        String updateUnit = "개";
+
+        IngredientUpdateRequestDto requestDto =
+            IngredientUpdateRequestDto.builder()
+                .id(3)
+                .category(updateCategory)
+                .name(updateName)
+                .storage(updateStorage)
+                .unit(updateUnit)
+                .build();
+        given(ingredientRepository.findById(anyInt())).willReturn(Optional.of(new Ingredient()));
+
+        // when
+        IngredientResponseDto responseDto = ingredientService.updateIngredient(requestDto);
+
+        // then
+        assertEquals(updateName, responseDto.getName());
+        assertEquals(updateCategory, responseDto.getCategory());
+        assertEquals(updateStorage, responseDto.getStorage());
+        assertEquals(updateUnit, responseDto.getUnit());
+    }
+
+    @Test
+    @DisplayName("deleteIngredient 성공")
+    void deleteIngredient() {
+        // given
+        given(ingredientRepository.findById(anyInt())).willReturn(Optional.of(new Ingredient()));
+
+        // when
+        ingredientService.deleteIngredient(3);
+
+        // then
+        then(ingredientRepository).should().findById(anyInt());
+        then(ingredientRepository).should().deleteById(anyInt());
+        then(ingredientRepository).shouldHaveNoMoreInteractions();
     }
 }
