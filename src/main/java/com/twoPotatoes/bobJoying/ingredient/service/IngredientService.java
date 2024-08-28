@@ -1,9 +1,12 @@
 package com.twoPotatoes.bobJoying.ingredient.service;
 
+import java.util.List;
+
 import com.twoPotatoes.bobJoying.common.dto.ApiResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientPageRequestDto;
 
 public interface IngredientService {
     /**
@@ -36,4 +39,12 @@ public interface IngredientService {
      * @return 식재료 삭제 성공 메시지
      */
     ApiResponseDto deleteIngredient(int ingredientId);
+
+    /**
+     * 모든 식재료를 카테고리에 맞게 조회합니다.
+     *
+     * @param requestDto 카테고리, 페이징 정보
+     * @return 카테고리에 알맞는 식재료 리스트
+     */
+    List<IngredientResponseDto> getIngredientsByCategory(MyIngredientPageRequestDto requestDto);
 }

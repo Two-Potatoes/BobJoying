@@ -1,5 +1,8 @@
 package com.twoPotatoes.bobJoying.ingredient.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +13,7 @@ import com.twoPotatoes.bobJoying.common.exception.CustomException;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientCreateRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientResponseDto;
 import com.twoPotatoes.bobJoying.ingredient.dto.IngredientUpdateRequestDto;
+import com.twoPotatoes.bobJoying.ingredient.dto.MyIngredientPageRequestDto;
 import com.twoPotatoes.bobJoying.ingredient.entity.Ingredient;
 import com.twoPotatoes.bobJoying.ingredient.repository.IngredientRepository;
 
@@ -47,6 +51,19 @@ public class IngredientServiceImpl implements IngredientService {
         findIngredient(ingredientId);
         ingredientRepository.deleteById(ingredientId);
         return new ApiResponseDto(MyIngredientConstants.DELETE_MY_INGREDIENT_SUCCESS);
+    }
+
+    @Override
+    public List<IngredientResponseDto> getIngredientsByCategory(MyIngredientPageRequestDto requestDto) {
+        requestDto.setPage(requestDto.getPage() - 1);
+        List<Ingredient> ingredientList = ingredientRepository.findAllByCategory(
+            requestDto.toPageRequestDto(),
+            requestDto.getCategoryEnum()
+        );
+        if (ingredientList.isEmpty()) {
+            throw new CustomException(CustomErrorCode.NO_MORE_DATA);
+        }
+        return ingredientList.stream().map(Ingredient::toIngredientResponseDto).toList();
     }
 
     public Ingredient findIngredient(int id) {

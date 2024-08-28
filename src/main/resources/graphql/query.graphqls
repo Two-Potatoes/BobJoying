@@ -7,4 +7,5 @@ type Query {
 
     # Ingredient
     getIngredient(ingredientId: ID!): IngredientResponseDto
+    getIngredientsByCategory(myIngredientPageRequestDto: MyIngredientPageRequestDto!): [IngredientResponseDto]
 }

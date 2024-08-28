@@ -2,8 +2,10 @@ version: "3"
 services:
   postgres:
     container_name: postgres
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres
     env_file: ./.env
-    image: postgres
     volumes:
       - bobJoyingDBVolume:/var/lib/postgresql/data
     environment:
